@@ -1,9 +1,12 @@
 body {
   padding-top: 5rem;
 }
-.index {
-  padding: 3rem 1.5rem;
-  text-align: center;
+.logo-image{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -6px;
 }
 .searchbar{
   margin-bottom: auto;
