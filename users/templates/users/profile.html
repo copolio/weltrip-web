@@ -1,5 +1,6 @@
 {% extends "planner/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
     <div class="content-section">
       <div class="media">
@@ -7,8 +8,10 @@
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
+          <form action = "{% url 'profile_update' %}">
+            <button class="btn btn-outline-info">프로필 수정</button>
+          </form>
         </div>
       </div>
-      <!-- FORM HERE -->
     </div>
 {% endblock content %}
