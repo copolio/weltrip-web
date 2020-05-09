@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 from PIL import Image
 from multiselectfield import MultiSelectField
@@ -14,14 +15,16 @@ class Profile(models.Model):
         ('VD', '시각 장애'),
         ('AD', '청각 장애'),
         ('W/B', '영유아 동반'),
+        ('NO', '해당 없음'),
     )
     disability = MultiSelectField(null=True, choices = disability_types)
+    disability.verbose_name = "장애 유형"
 
     def __str__(self):
         return f'{self.user.username} 님의 프로필'
 
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
         img = Image.open(self.image.path) # current instance의 image open
 

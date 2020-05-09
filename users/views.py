@@ -6,25 +6,15 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 # Create your views here.
 def register(request):
     if request.method == 'POST':
-        r_form = UserRegisterForm(request.POST)
-        p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
-        if r_form.is_valid() and p_form.is_valid():
-            r_form.save()
-            p_form.save()
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'{username} 님 환영합니다!')
             return redirect('login')
     else:
-        r_form = UserRegisterForm()
-        p_form = ProfileUpdateForm()
-    
-    context = {
-        'r_form' : r_form,
-        'p_form' : p_form
-    }
-    return render(request, 'users/register.html', context)
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
 
 @login_required
 def profile(request):

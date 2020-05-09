@@ -10,8 +10,7 @@
                     <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4 text-center"><h3>Weltrip에 오신걸 환영합니다!</h3></legend>
-                        {{ r_form|crispy }}
-                        {{ p_form|crispy }}
+                        {{ form|crispy }}
                     </fieldset>
                     <div class="form-group text-center">
                         <button class="btn btn-outline-info" type="submit">회원가입</button>
