@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'multiselectfield',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,8 @@ LOGIN_REDIRECT_URL = 'planner-home'
 LOGIN_URL = 'login'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'planner', 'static')
+    os.path.join(BASE_DIR, 'planner', 'static'),
+    os.path.join(BASE_DIR, 'search', 'static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

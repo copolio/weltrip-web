@@ -1,0 +1,83 @@
+{% load static %}
+{% load filts %}
+
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shrikhand&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+
+        <title>검색엔진 연습하기</title>
+    </head>
+
+    <body>
+        <div class="bonmun">
+
+        <div class="page-header">
+            <h1><a href="/app"><br>RESULTS</a></h1>
+            
+        </div>
+
+        
+            <p>{{ SearchObj.key }} 에 대한 검색 결과입니다.</p>
+            <hr class="top-line">   
+
+
+        <div class="content-container">
+            {% for elm in details %}
+
+                {% if 'firstimage' in elm.keys %}
+                <img src ="{{elm.firstimage}}" height="350"><br>
+                {% else %}<div style="font-size: 15pt; font-weight: bold;">No Image</div><br>
+                {% endif %}
+                <br>
+                {% for infos in elm.BF %}
+                {% if infos in bf_tags.keys %}
+                <span style="font-size: 13pt; color: blue; text-decoration: underline; font-weight: bold;">
+                #{{ bf_tags|getvalue:infos }}&nbsp;</span>
+                
+                {% endif %}
+                {% endfor %}
+                <br><br>
+
+                <form name="detailForm" action="search_detail.html" method="POST" target="_blank">
+                    {% csrf_token %}
+                    <input type = "hidden" name ="contentId" value = "{{elm.contentid}}">
+                    <input type = "hidden" name ="contentTypeId" value = "{{elm.contenttypeid}}">
+                    <input type="submit" value ="상세정보보기" >
+                </form>
+                
+
+                <br><br>
+
+                <details>
+                <summary>
+                <span style="font-size: 15pt; font-weight: bold;">{{elm.title}}</span></summary><br>
+                
+                
+                {% for tags, values in elm.items %}
+                
+
+                    {% if tags in tag_names.keys %}
+                    <span style="font-weight: bold; font-size: 13pt">{{ tag_names|getvalue:tags }}
+                    </span> : {{ values }}<br>
+
+                    {% endif %}
+
+                {% endfor %}</details><br><br><br>
+                <hr class="mid-line">
+
+            {% endfor %}
+        </div>
+
+
+        </div>
+    </body>
+
+</html>

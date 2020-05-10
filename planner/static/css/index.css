@@ -60,3 +60,8 @@ body {
   margin-right: 20px;
   margin-bottom: 16px;
 }
+
+hr.mid-line{
+  border: solid black;
+  border-width: 1px 0 0;
+}

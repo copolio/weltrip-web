@@ -1,0 +1,63 @@
+{% load static %}
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shrikhand&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+
+        <title>검색 결과 상세보기</title>
+    </head>
+
+    <body>
+        <div class="bonmun">
+
+        <div class="page-header">
+            <h1><a href="/app"><br>DETAILS</a></h1>
+            
+        </div>
+
+        
+            <p>상세 결과입니다.</p>
+            <hr class="top-line">   
+
+
+        <div class="content-container">
+            {{C_id}}로 조회한 결과<br><br>
+
+
+            이미지 열람:<br>
+            {% for srcs in Infos.img %}
+            <img src = "{{srcs.smallimageurl}}">
+            {% endfor %}
+            <hr class="mid-line">
+            
+            반복정보 안내:<br>
+            {% for i in Infos.rep %}
+            {% for tag, value in i.items %}
+            {{tag}} : {{value}}<br>
+            {% endfor %}
+            {% endfor %}
+
+            <hr class="mid-line">
+            소개정보 안내:<br>
+            {% for i in Infos.intro %}
+            {% for tag, value in i.items %}
+            {{tag}} : {{value}}<br>
+            {% endfor %}
+            {% endfor %}
+            <hr class="mid-line">
+
+
+        </div>
+
+
+        </div>
+    </body>
+
+</html>

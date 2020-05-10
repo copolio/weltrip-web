@@ -1,0 +1,39 @@
+{% load static %}
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="{% static 'css/test_css.css' %}">
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shrikhand&display=swap" rel="stylesheet">
+
+
+        <title>웹페이지 연습하기</title>
+    </head>
+
+    <body>
+        
+        <div class="page-header">
+            <h1><a href="#"><br>SEARCH FORM PRACTICE</a></h1>
+        </div>
+
+        
+        <div class="content-container">
+            <p>Enter The Keyword</p>
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="submit">Submit</button>
+            </form>
+
+
+        </div>
+        </form>
+        
+
+        
+    </body>
+
+</html>

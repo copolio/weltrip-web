@@ -1,5 +1,6 @@
 {% extends "planner/base.html" %}
 {% load static %}
+
 {% block content %}
 
     <div class="container text-center w-75 h-75 p-4">
@@ -9,11 +10,70 @@
     <!-- Search form -->
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
-            <div class="searchbar">
-                <input class="search_input" type="text" name="" placeholder="도시, 여행지 등 검색">
-                <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-            </div>
+            
         </div>
+
+
+
+        <br><center>
+        <form method="POST" action="search/search_result.html" method="POST" target="_blank">
+            {% csrf_token %}
+        <input class ="searchbar" placeholder="도시, 여행지 등 검색" type = "text" name="keyword" autocomplete="off" style="width:60%; height:20%; font-size: 13pt; font-weight: bold;" style = "text-align:center" required>
+        
+        </form>
+        
+
+        <br><br><br><br><br><hr class="mid-line">
+        <h3><strong>인기 여행지</strong></h3>
+        <br><br><br>
+        
+        
+        <div class="card-group">
+            {% for elm in popular1 %}
+            <div class="card">
+              <img class="card-img-top" src="{{elm.firstimage}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{elm.title}}
+                    
+                </h5>
+                <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
+                <form name="popular_site" action="search/search_result.html" method="GET" target="_blank">
+                    
+                <input type ="hidden" name="keyword" value = "{{elm.title}}">{% csrf_token %}
+                <button type="submit" class="btn btn-info" formmethod="POST">더보기</button>
+                </form>
+              </div>
+            </div>&emsp;&ensp;
+            {% endfor %}
+          </div><br><br>
+          <div class="card-group">
+            {% for elm in popular2 %}
+            <div class="card">
+              <img class="card-img-top" src="{{elm.firstimage}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{elm.title}}
+                </h5>
+                <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
+                <form name="popular_site" action="search/search_result.html" method="GET" target="_blank">
+                    
+                <input type ="hidden" name="keyword" value = "{{elm.title}}">{% csrf_token %}
+                <button type="submit" class="btn btn-info" formmethod="POST">더보기</button>
+                </form>
+              </div>
+            </div>&emsp;&ensp;
+            {% endfor %}
+          </div>
+
+
+          <br><br><br>
+        </center>
+
+
+
+
+        
     </div>
 
 {% endblock content %}
