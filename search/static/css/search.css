@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
 html{
-    background: url(img/bg2.jpg) no-repeat center center fixed;
+    
+    /* background: url(img/bg2.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    background-size: cover; */
     width:100%;
     height:100%;
 }
@@ -13,7 +14,7 @@ html{
 
 body{
     font-family: 'Shrikhand', cursive;
-    text-shadow: 2px 2px 2px gray;
+    
     text-align:center;
     /*
     width:100%;
@@ -22,7 +23,7 @@ body{
 
 .results{
     font-size: 10pt;
-    color: #FFFFFF;
+    color: black;
     text-align:left;
 }
 
@@ -31,8 +32,8 @@ body{
 }
 
 hr.top-line{
-    border: solid #FFFFFF;
-    border-width: 5px 0 0;
+    border: solid black;
+    border-width: 2px 0 0;
 }
 hr.mid-line{
     border: solid #424242;
@@ -72,10 +73,10 @@ p{
 }
 
 h1 a{
-    color: white;
+    color: black;
     text-decoration: none;
     
-    text-shadow: 2px 3px 2px gray;
+    
     font-family: 'Shrikhand', cursive;
 
 }

@@ -24,7 +24,10 @@ def parseAll(req):
     
     # 파싱할 페이지 수 카운트
     c_tmp = list(re.split('[<>]', str(soup.select('totalcount'))))
-    page_count = int(findTag(c_tmp, 'totalcount'))
+    try:
+        page_count = int(findTag(c_tmp, 'totalcount'))
+    except:
+        page_count = 1
     
     if page_count < 10:
         page_count = 1
@@ -124,7 +127,7 @@ def findSer(df, dic):
     val1 = dic['cat1']
     val2 = dic['cat2']
     val3 = dic['cat3']
-    print(val1, val2, val3)
+    
     row = df[df['code3'] == str(val3)]
 
     result['code1'] = row.iloc[0, 1]
@@ -220,7 +223,7 @@ tag_names ={
     'contenttypeid' : '장소유형',
     'sigungucode' : '시군구',
     'title' : '장소명',
-    'BF' : '무장애'
+    'BF' : '무장애 정보'
 }
 
 # 무장애 정보 태그용 딕셔너리

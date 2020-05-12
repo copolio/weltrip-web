@@ -10,17 +10,17 @@
     <!-- Search form -->
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
-            
+            <form method="POST" action="search/search_result.html" method="POST" target="_blank">
+                <div class="search_bar">
+                    {% csrf_token %}
+                    <input class ="searchbar" placeholder="도시, 여행지 등 검색" type = "text" name="keyword" autocomplete="off" required>
+                    <button type="submit" class="search_icon"><i class="fas fa-search"></i></input>
+                </div>
+            </form>
         </div>
 
+        <br>
 
-
-        <br><center>
-        <form method="POST" action="search/search_result.html" method="POST" target="_blank">
-            {% csrf_token %}
-        <input class ="searchbar" placeholder="도시, 여행지 등 검색" type = "text" name="keyword" autocomplete="off" style="width:60%; height:20%; font-size: 13pt; font-weight: bold;" style = "text-align:center" required>
-        
-        </form>
         
 
         <br><br><br><br><br><hr class="mid-line">
