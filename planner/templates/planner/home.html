@@ -10,7 +10,7 @@
     <!-- Search form -->
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
-            <form method="POST" action="search/search_result.html" method="POST" target="_blank">
+            <form method="POST" action="search/search_result.html" method="POST">
                 <div class="search_bar">
                     {% csrf_token %}
                     <input class ="searchbar" placeholder="도시, 여행지 등 검색" type = "text" name="keyword" autocomplete="off" required>
@@ -38,7 +38,7 @@
                     
                 </h5>
                 <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
-                <form name="popular_site" action="search/search_result.html" method="GET" target="_blank">
+                <form name="popular_site" action="search/search_result.html" method="GET">
                     
                 <input type ="hidden" name="keyword" value = "{{elm.title}}">{% csrf_token %}
                 <button type="submit" class="btn btn-info" formmethod="POST">더보기</button>
