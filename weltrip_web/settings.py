@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'multiselectfield',
     'search',
+    'actualPlanner'
 ]
 
 MIDDLEWARE = [

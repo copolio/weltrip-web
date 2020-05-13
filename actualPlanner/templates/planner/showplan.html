@@ -1,0 +1,48 @@
+
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'planner/creatplan.css' %}">
+
+</head>
+
+  
+  <body class="text">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Weltrip Planner</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="{% url 'index' %}">Planner</a>
+            <a class="nav-link" href="#">Valuation</a>
+          </nav>
+        </div>
+      </header>
+  
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">YOUR PLAN</h1>
+        <!--<p class="lead">당신의 행복한 무장애여행을 위한 동반자 Weltrip의 여행일정 계획 기능입니다. 설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</p>-->
+        <p class="lead">나만을 위한 무장애 여행 일정</p>
+        <label>
+          <input type="text" value = "경복궁" style="width:300px;height:60px;font-size:30px;">
+        </label>
+        <label>
+            <input type="text" value = "인사동" style="width:300px;height:60px;font-size:30px;">
+        </label>
+        <label>
+            <input type="text" value = "대학로" style="width:300px;height:60px;font-size:30px;">
+        </label>
+        <label>
+            <input type="text" value = "청계천" style="width:300px;height:60px;font-size:30px;">
+        </label>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-secondary">여행일정 평가하기</a>
+        </p>
+  
+      <footer class="mastfoot mt-auto">
+        <p class="lead">무장애여행 동반자 Weltrip</p>
+      </footer>
+    </div>
+  </body>
+ 
