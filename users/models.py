@@ -19,6 +19,21 @@ class Profile(models.Model):
     )
     disability = MultiSelectField(null=True, choices = disability_types)
     disability.verbose_name = "장애 유형"
+    
+    preference_types = (
+        ('A0101', '자연관광지'),
+        ('A0102', '관광자원'),
+        ('A0201', '역사관광지'),
+        ('A0202', '휴양관광지'),
+        ('A0203', '체험관광지'),
+        ('A0204', '산업관광지'),
+        ('A0205', '건축/조형물'),
+        ('A0206', '문화시설'),
+        ('A0207', '축제'),
+        ('A0208', '공연/행사'),
+    )
+    preference = MultiSelectField(null=True, choices = preference_types)
+    preference.verbose_name = "선호 유형"
 
     def __str__(self):
         return f'{self.user.username} 님의 프로필'
