@@ -1,0 +1,40 @@
+
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'planner/coverwork.css' %}">
+
+</head>
+
+  
+  <body class="text">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Weltrip Planner</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="{% url 'index' %}">Planner</a>
+            <a class="nav-link" href="#">Valuation</a>
+          </nav>
+        </div>
+      </header>
+  
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">Plan for Barrier-free tour</h1>
+        <p class="lead">당신의 행복한 무장애여행을 위한 동반자 Weltrip의 여행일정 계획 기능입니다. 설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</p>
+        <p class="lead">
+          <a href="{% url 'createplan' %}" class="btn btn-lg btn-secondary">여행일정 생성하기</a>
+          <a href="{% url 'showplan' %}" class="btn btn-lg btn-secondary">나만의 여행일정</a>
+        </p>
+      </main>
+  
+      <footer class="mastfoot mt-auto">
+        <p class="lead">무장애여행 동반자 Weltrip</p>
+        <!--<div class="inner">
+          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>-->
+      </footer>
+    </div>
+  </body>
+ 
