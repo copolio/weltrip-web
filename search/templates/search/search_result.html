@@ -1,0 +1,138 @@
+
+{% load static %}
+{% load filts %}
+
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/fc7df2f044.js" crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shrikhand&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+
+        <title>weltrip-search</title>
+    </head>
+
+    <body>
+
+
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-info fixed-top text-center">
+            <a class="navbar-brand" href="{% url 'planner-home' %}">Weltrip</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+                <ul class="navbar-nav active">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'profile' %}">프로필<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">로그아웃<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'login' %}">로그인<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">회원가입<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="container">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+              {% endif %}
+                {% block content %}{% endblock content %}
+            </div>
+    
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        </main><!-- /.container -->
+
+
+
+
+
+
+
+        
+        <br><br><br><br>
+        <div class="page-header">
+            <h1>{{ SearchObj.key }} 에 대한 검색 결과입니다.</h1>
+            <br><hr class="top-line"></div>
+
+        <br><br>
+        {% for elm in details %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {% if 'firstimage' in elm.keys %}
+                    <img src ="{{elm.firstimage}}" height="350">
+                    {% else %}
+                    <div style="font-size: 15pt; font-weight: bold;">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    {% for tags, values in elm.items %}
+                    {% if tags in tag_names.keys %}
+                    <span style="font-size: 12pt; font-weight: bold;">{{ tag_names|getvalue:tags }}</span>
+                    <span style="font-size: 12pt;"> : 
+                        {% if tags == 'BF' %}
+                        {{ values|getcontents }}
+                        {% else %}
+                        {{ values }}
+                        {% endif %}
+                        <br></span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <br><h4 style="font-weight: bold;">{{elm.title}}</h4>
+                    {% for infos in elm.BF %}
+                    {% if infos in bf_tags.keys %}
+                    <span style="font-size: 12pt; color: blue; text-decoration: underline; font-weight: bold;">
+                    #{{ bf_tags|getvalue:infos }}&nbsp;</span>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                    
+                </div>
+                <div class="col">
+                    <br>
+                    <form name="detailForm" action="search_detail.html" method="POST" target="_blank">
+                        {% csrf_token %}
+                        <input type = "hidden" name ="contentId" value = "{{elm.contentid}}">
+                        <input type = "hidden" name ="contentTypeId" value = "{{elm.contenttypeid}}">
+                        <button type="submit" class="btn btn-info" formmethod="POST">상세정보보기</button>
+                    </form>
+                </div>
+            </div>
+        </div><br><hr class="mid-line"><br>
+        {% endfor %}
+
+   
+
+    </body>
+
+</html>
