@@ -17,6 +17,9 @@ def createplan(request):
 def showplan(request):
     return render(request, 'planner/showplan.html')
 
+def reviseplan(request):
+    return render(request, 'planner/reviseplan.html')
+
 
 
 

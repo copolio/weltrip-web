@@ -7,6 +7,7 @@ urlpatterns = [
     path('plannerchoice/', views.plannerchoice, name ='plannerchoice'),
     path('createplan/', views.createplan, name ='createplan'),
     path('showplan/', views.showplan, name ='showplan'),
-    path('cplan/', views.cplan, name='tst'),
+    path('cplan/', views.cplan, name='cplan'),
+    path('reviseplan/', views.reviseplan, name='reviseplan'),
     
 ]

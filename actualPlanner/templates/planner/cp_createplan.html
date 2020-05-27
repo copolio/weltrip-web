@@ -39,12 +39,13 @@
         </nav>
         </div>
       </header>
+      <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
   
       <main role="main" class="inner cover">
 
 
 
-        <h1 class="cover-heading">일정 추가 장소를 기입하세요.</h1>
+        <h1 class="cover-heading"> 추가할 장소를 기입하세요. </h1>
         <!--<p class="lead">당신의 행복한 무장애여행을 위한 동반자 Weltrip의 여행일정 계획 기능입니다. 설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</p>-->
         <label>장소기입
           <form name="search-key" action="" method="POST">
@@ -55,11 +56,9 @@
         
         
         <p class="lead"><br>
-          <a href="{% url 'createplan' %}" class="btn btn-default btn-secondary">장소 추가</a>
-          <a href="{% url 'showplan' %}" class="btn btn-default btn-secondary">일정 완료</a>
-
-          
           <button type="submit" class="btn btn-light" formmethod="POST">장소 검색</button>
+          <button type="submit" class="btn btn-light" formmethod="POST">일정 완료</button>
+          <!--<a href="{% url 'showplan' %}" class="btn btn-default btn-secondary">일정 완료</a>-->
           </form>
         </p>
       </main>
