@@ -2,6 +2,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+<title>Weltrip Planner</title>
+
     <div class="row justify-content-center">
         <div class="col-5">
             <div class="content-selection">
@@ -14,16 +16,17 @@
                         <table class="table table-sm table-skyblue">
                           <thead>
                             <th scope="col">No.</th>
-                            <th scope="col">나의 일정</th>
-                            <th scope="col"> </th>
+                            <th scope="col">  나의 일정  </th>
+                            <th scope="col">선택</th>
                           </thead>
                         </table>
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
                         <p class="lead">
-                            <a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 일정 생성</a>
+                            <a href="{% url 'makeplanid' %}" class="btn btn-info btn-block">새로운 일정 생성</a>
                             <a href="{% url 'reviseplan' %}" class="btn btn-info btn-block">나의 일정 수정</a>
+                            <a href="{% url 'rankplan' %}" class="btn btn-info btn-block">나의 일정 평가</a>
                         </p>
                     </div>
                 

@@ -10,14 +10,19 @@
                 <form method="POST">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                        <legend class="border-bottom mb-4 text-center">Plan for Barrier-free tour</legend>
-                        <legend class="border-bottom mb-4 text-center">설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</legend>
+                        <legend class="border-bottom mb-4 text-center">새로운 여행 일정 생성하기</legend>
+                        <legend class="border-bottom mb-4 text-center">자신만의 두근거리는<br>계획을 마음껏 그려보세요.</legend>
                         {{ form|crispy }}
                     </fieldset>
+                <p>           
+                    <form name="search-key" action="" method="POST">
+                        {% csrf_token %}
+                      <input type="text" placeholder="새로운 일정 이름을 적어주세요" style="width:400px;height:30px;font-size:20px;" name="search-key">
+                
                     <div class="form-group">
+                </p> 
                         <p class="lead">
                             <a href="{% url 'createplan' %}" class="btn btn-info btn-block">여행일정 생성하기</a>
-                            <a href="{% url 'showplan' %}" class="btn btn-info btn-block">나만의 여행일정</a>
                         </p>
                     </div>
                 

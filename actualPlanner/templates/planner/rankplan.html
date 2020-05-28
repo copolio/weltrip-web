@@ -1,0 +1,74 @@
+{% extends "planner/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title>Weltrip Planner</title>
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="content-selection">
+                <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 text-center">나의 일정 평가하기</legend>
+      
+                        <table class="table table-sm table-skyblue">
+                          <thead>
+                            <th scope="col">No.</th>
+                            <th scope="col">나의 여행 경로</th>
+                            <th scope="col">평가하기</th>
+                          </thead>
+
+
+                         <!--그냥 예를 들어 평가하기 구현-->
+ 
+                            <thead>
+                              <th scope="col">Ex)</th>
+                              <th scope="col">경복궁</th>
+                              <th scope="col"><div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                  <button type="button" class="btn btn-info">1</button>
+                                  <button type="button" class="btn btn-info">2</button>
+                                  <button type="button" class="btn btn-info">3</button>
+                                  <button type="button" class="btn btn-info">4</button>
+                                  <button type="button" class="btn btn-info">5</button>
+                                </div></th>
+                            </thead>
+
+                            <thead>
+                                <th scope="col">Ex)</th>
+                                <th scope="col">대학로</th>
+                                <th scope="col"><div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                  <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-info">1</button>
+                                    <button type="button" class="btn btn-info">2</button>
+                                    <button type="button" class="btn btn-info">3</button>
+                                    <button type="button" class="btn btn-info">4</button>
+                                    <button type="button" class="btn btn-info">5</button>
+                                  </div></th>
+                              </thead>
+
+                        <!-- 여기까지-->
+
+                        </table>
+
+
+
+
+
+                        {{ form|crispy }}
+                    </fieldset>
+                    
+      <!-- 검색결과 표출부 끝 -->
+                            <!--<a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 장소 추가</a>-->
+                        <p>
+                            <a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 평가 완료</a>
+                            <!--<button type="submit" a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 평가 완료</button>-->
+                        </p>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

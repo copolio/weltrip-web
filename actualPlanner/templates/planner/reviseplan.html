@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+<title>Weltrip Planner</title>
     <div class="row justify-content-center">
         <div class="col-5">
             <div class="content-selection">
@@ -15,15 +16,52 @@
                           <thead>
                             <th scope="col">No.</th>
                             <th scope="col">나의 여행 경로</th>
-                            <th scope="col"> </th>
+                            <th scope="col">체류시간</th>
                           </thead>
                         </table>
+ 
+
+
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
                         <p class="lead">
-                            <a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 장소 추가</a>
-                            <a href="{% url 'reviseplan' %}" class="btn btn-info btn-block">일정 수정 완료</a>
+                            
+                            <form name="search-key" action="" method="POST">
+                                {% csrf_token %}
+                            <input type="text" placeholder="일정에 추가할 장소를 적어주세요." style="width:400px;height:28px;font-size:18px;" name="search-key">
+                                
+                            <p class="lead"><br>
+                                <button type="submit" class="btn btn-light" formmethod="POST">장소 검색</button>
+                                <!--<button type="submit" class="btn btn-light" formmethod="POST">일정 완료</button>
+                                <a href="{% url 'showplan' %}" class="btn btn-default btn-secondary">일정 완료</a>-->
+                                </form>
+                              </p>
+                            <!-- 검색결과 표출 부분 -->
+                                <table class="table table-sm table-blus">
+                                    <thead>
+                                    <th scope="col">장소명</th>
+                                    <th scope="col">주소</th>
+                                    <th scope="col"> </th>
+                                    </thead>
+                                    <tbody>
+                                    {% for elm in site_searched %}
+                                    <form name="addSite" action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
+                                    <tr>
+                                        <th scope="row">{{elm.title}}</th>
+                                        <td>{{elm.addr}}</td>
+                                        <td><button type="submit" class="btn btn-outline-info">추가</button></td>
+                                    </tr>
+                                    </form>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+      <!-- 검색결과 표출부 끝 -->
+                            <!--<a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 장소 추가</a>-->
+                            <a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 수정 완료</a>
+                            <!--<button type="submit" a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 수정 완료</button>-->
                         </p>
                     </div>
                 
