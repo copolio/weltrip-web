@@ -1,0 +1,34 @@
+{% extends "planner/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="content-selection">
+                <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 text-center">여행 일정표 수정하기</legend>
+      
+                        <table class="table table-sm table-skyblue">
+                          <thead>
+                            <th scope="col">No.</th>
+                            <th scope="col">나의 여행 경로</th>
+                            <th scope="col"> </th>
+                          </thead>
+                        </table>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <p class="lead">
+                            <a href="{% url 'tst' %}" class="btn btn-info btn-block">새로운 장소 추가</a>
+                            <a href="{% url 'reviseplan' %}" class="btn btn-info btn-block">일정 수정 완료</a>
+                        </p>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
