@@ -228,10 +228,13 @@ def rankplan(request):
                 site_grade = int(value)
                 site_name = getInfos(title_tmp).get('title')
                 cat_value = getInfos(cat_tmp).get('cat2')
+                cat_value_list = cat_value.split(', ')
 
-                for i in preference_types:
-                    if i[0] == cat_value:
-                        cat_value = i[1]
+                for i in range(len(cat_value_list)):
+                    for j in preference_types:
+                        if j[0] == cat_value_list[i]:
+                            cat_value_list[i] = j[1]
+                cat_value = ', '.join(cat_value_list)
 
                 # db 저장부
                 Rating(contentId=site_id, contentName=site_name, contentType=cat_value, userRated=user_name, userDType=dis_type, userPType=pre_type, grade=site_grade).save()
