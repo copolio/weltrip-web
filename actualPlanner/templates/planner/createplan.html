@@ -18,6 +18,7 @@
                               <th scope="col">나의 일정</th>
                               <th scope="col"></th>
                               <th scope="col"></th>
+                              <th scope="col"></th>
                             </thead>
                             <tbody>
                                 {% if plan_list %}
@@ -35,7 +36,14 @@
                                         <form name="return_pk" action="" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="pk_del" value="{{elm.id}}">
-                                            <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" >삭제</button>
+                                            <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST">삭제</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form name="return_pk" action="{% url 'rankplan' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="pk_rating" value="{{elm.id}}">
+                                            <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" onclick="location.href='{% url 'rankplan' %}'">평가</button>
                                         </form>
                                     </td>
                                 </tr>

@@ -6,9 +6,12 @@ from search.rq_class import *
 class Node: # node: 장소 단위(1개 장소)
     
     def __init__(self):
-        self.item = {'siteId':'', 'siteName':'', 'siteTime':'', 'siteType':1,}
+        self.item = {'siteId':'', 'siteName':'', 'siteTime':'', 'siteType':1, 'rated':False}
     # type value(int): 
     # 0 - start point, 1 - mid point, 2 - end point
+
+    def getRated(self):
+        self.item['rated'] = True
 
     def modiNode(self, key, value):
         self.item[key] = value
@@ -43,6 +46,10 @@ class userPlan(Node): # Node로 이루어진 리스트 형태
     def __init__(self):
         self.plan = []
         self.userId = ''
+        self.rated = False
+    
+    def planRated(self):
+        self.rated = True
     
     def addNode(self, Node):
         self.plan.append(Node)

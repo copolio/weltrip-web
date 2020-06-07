@@ -22,13 +22,6 @@ def newPlan(userId, planName):
 
 
 
-
-
-
-
-
-
-
 ##DB상 Plan의 Contents필드(텍스트 필드, 최대길이 제한없음) 규격:
 #
 # 컨텐츠ID:체류시간&컨텐츠ID:체류시간& ... 컨텐츠ID:체류시간&
@@ -64,5 +57,9 @@ def toPlan(planContents):
     except:
         return None
     
+
+# 평가 데이터 저장
+def saveRating():
+    pass
 
 
