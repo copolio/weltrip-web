@@ -195,6 +195,19 @@ def rankplan(request):
             user_name = request.user
 
             api_tmp = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
+
+            preference_types = (
+                ('A0101', '자연관광지'),
+                ('A0102', '관광자원'),
+                ('A0201', '역사관광지'),
+                ('A0202', '휴양관광지'),
+                ('A0203', '체험관광지'),
+                ('A0204', '산업관광지'),
+                ('A0205', '건축/조형물'),
+                ('A0206', '문화시설'),
+                ('A0207', '축제'),
+                ('A0208', '공연/행사'),
+            )
             
             for key, value in datas.items():
                 
@@ -216,6 +229,9 @@ def rankplan(request):
                 site_name = getInfos(title_tmp).get('title')
                 cat_value = getInfos(cat_tmp).get('cat2')
 
+                for i in preference_types:
+                    if i[0] == cat_value:
+                        cat_value = i[1]
 
                 # db 저장부
                 Rating(contentId=site_id, contentName=site_name, contentType=cat_value, userRated=user_name, userDType=dis_type, userPType=pre_type, grade=site_grade).save()
