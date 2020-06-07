@@ -1,39 +1,28 @@
-
+{% extends "planner/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title>Weltrip Planner</title>
 
-<head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'planner/cover.css' %}">
-</head>
-
-  
-  <body class="text">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Weltrip Planner</h3>
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Planner</a>
-            <a class="nav-link" href="#">Valuation</a>
-          </nav>
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="content-selection">
+                <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 text-center">Plan for Barrier-free tour</legend>
+                        <legend class="border-bottom mb-4 text-center">Weltrip Planner와 함께<br> 당신의 행복을 계획하세요. </legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <p class="lead">
+                            <a href="{% url 'createplan' %}" class="btn btn-info btn-block">Welplan</a>
+                        </p>
+                    </div>
+                
+            </div>
         </div>
-      </header>
-  
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Plan for Barrier-free tour</h1>
-        <p class="lead">당신의 행복한 무장애여행을 위한 동반자 Weltrip의 여행일정 계획 기능입니다. Weltrip Planner와 함께 당신의 행복을 그려보세요.</p>
-        <p class="lead">
-            <a href="{% url 'plannerchoice' %}" class="btn btn-lg btn-secondary">Welplan</a>
-        </p>
-      </main>
-  
-      <footer class="mastfoot mt-auto">
-        <p class="lead">무장애여행 동반자 Weltrip</p>
-        <!--<div class="inner">
-          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-        </div>-->
-      </footer>
     </div>
-  </body>
- 
+
+{% endblock content %}

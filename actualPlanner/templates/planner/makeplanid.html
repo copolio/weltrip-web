@@ -1,0 +1,32 @@
+{% extends "planner/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title>Weltrip Planner</title>
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="content-selection">
+                <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+                
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 text-center">새로운 여행 일정 생성하기</legend>
+                        <legend class="border-bottom mb-4 text-center">자신만의 두근거리는<br>계획을 마음껏 그려보세요.</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                <p>           
+                    <form name="new_plan" action="" method="POST">
+                        {% csrf_token %}
+                      <input type="text" placeholder="새로운 일정 이름을 적어주세요" style="width:400px;height:30px;font-size:20px;" name="new_plan_title">
+                
+                    <div class="form-group">
+                </p> 
+                        <p class="lead">
+                            <button type="submit" class="btn btn-info btn-block" formmethod="POST" onclick="location.href='{% url 'createplan' %}'">여행일정 생성하기</p></form>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
