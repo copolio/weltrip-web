@@ -191,6 +191,7 @@ def rankplan(request):
 
 
             dis_type = dis_user.disability 
+            pre_type = dis_user.preference
             user_name = request.user
 
             api_tmp = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
@@ -217,7 +218,7 @@ def rankplan(request):
 
 
                 # db 저장부
-                Rating(contentId=site_id, contentName=site_name, contentType=cat_value, userRated=user_name, userType=dis_type, grade=site_grade).save()
+                Rating(contentId=site_id, contentName=site_name, contentType=cat_value, userRated=user_name, userDType=dis_type, userPType=pre_type, grade=site_grade).save()
 
             return redirect('createplan')
         

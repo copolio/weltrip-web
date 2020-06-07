@@ -21,5 +21,6 @@ class Rating(models.Model):
     contentName = models.CharField(max_length=30)
     contentType = models.CharField(max_length=10)
     userRated = models.CharField(max_length=20)
-    userType = models.CharField(max_length=10)
+    userDType = models.CharField(max_length=10)
+    userPType = models.CharField(max_length=10, null=True)
     grade = models.IntegerField()
