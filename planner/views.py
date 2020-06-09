@@ -3,7 +3,6 @@ from django.http import HttpResponse
 
 
 
-
 # 검색 모듈과 연결 - 작성자:이혜인
 from .forms import searchForm
 from search.models import SearchMeta, SearchObj

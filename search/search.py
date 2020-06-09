@@ -6,6 +6,7 @@ import django
 import numpy as np
 import pandas as pd
 import requests
+import random
 from bs4 import BeautifulSoup
 
 from .rq_class import *
@@ -206,7 +207,45 @@ def popularSites(site_num, pic_option, apiInfo):
 
     return sites
 
+# 무작위장소 검색(n개, 사진 필수/무방 옵션)
+def randomSites(site_num, pic_option, apiInfo):
+    req = tourReq('ETC', 'AppTest', apiInfo.mykey)
+    req.addPara('numOfRows', site_num)
 
+    rn_arrange = random.randint(0,3)
+    rn_geocode = random.randint(1,39)
+
+    if pic_option:
+        if rn_arrange == 0:
+            req.addPara('arrange', 'O')
+        elif rn_arrange == 1:
+            req.addPara('arrange', 'P')
+        elif rn_arrange == 2:
+            req.addPara('arrange', 'Q')
+        elif rn_arrange == 3:
+            req.addPara('arrange', 'R')
+    else:
+        if rn_arrange == 0:
+            req.addPara('arrange', 'A')
+        elif rn_arrange == 1:
+            req.addPara('arrange', 'B')
+        elif rn_arrange == 2:
+            req.addPara('arrange', 'C')
+        elif rn_arrange == 3:
+            req.addPara('arrange', 'D')
+    
+    req.addPara('areaCode', rn_geocode)
+
+    tmp = parseOne(req.makeReq(apiInfo.url, 'areaBasedList'))
+    
+    results_list = []
+    for elm in tmp:
+        elm_tmp = getInfos(elm)
+        dic_tmp = {'title':elm_tmp.get('title'), 'addr':elm_tmp.get('addr1'), 'contentId':elm_tmp.get('contentid'),
+        'firstimage':elm_tmp.get('firstimage')}
+        results_list.append(dic_tmp)
+
+    return results_list
 ### 검색 메소드 -끝-
 
 

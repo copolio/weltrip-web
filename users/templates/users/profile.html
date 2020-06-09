@@ -2,20 +2,132 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
-          <form action = "{% url 'profile_update' %}">
-            <button class="btn btn-outline-info">프로필 수정</button>
-          </form>
-        </div>
+<div class="content-section">
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+      <form action="{% url 'profile_update' %}">
+        <button class="btn btn-outline-info">프로필 수정</button>
+      </form>
+    </div>
+  </div>
+  <hr>
+  <script>//평과 결과 사전형으로 저장 -> JSON으로 파싱
+    var rankval = {}
+    
+    function getRank(k,v){
+      rankval[k]=v
+    }
+  
+    function JSONRankVal(){
+      return JSON.stringify(rankval)
+    }
+
+    function finalSubmit(){
+      document.getElementById("rating_form").value = JSONRankVal()          
+    }
+  
+
+  </script>
+  <div>
+    <h3 class="mb-4 text-center"> <strong>{{ user.username }}님의 여행지 취향은?</strong></h3>
+  </div>
+  <h5 class="mb-4 text-center">각 여행지의 선호도를 표시해보세요. Weltrip이 {{ user.username}}님의 취향을 반영합니다:) </h5>
+  <div>
+    <form name="ratings" action="" method="POST">
+      {% csrf_token %}
+      <input name="ratings" id="rating_form" type="hidden">
+      <button type="submit" action="" formmethod="POST" class="btn btn-info" style="float:right" onclick="finalSubmit()">나의 선호도 저장</button></form>
+      
+  </div>
+
+  <br> <br> 
+  <div class="card-group">
+    {% for elm in random1 %}
+    <div class="card">
+      <img class="card-img-top" src="{{elm.firstimage}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{elm.title}}
+
+        </h5>
+        <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
+        <form name="popular_site" action="search/search_result.html" method="GET">
+
+          <input type="hidden" name="keyword" value="{{elm.title}}">{% csrf_token %}
+          <!-- <button type="submit" class="btn btn-info" formmethod="POST">더보기</button> -->
+
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option1" value='1' onclick="getRank('{{elm.contentId}}', 1)">
+              1
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option2" value='2' onclick="getRank('{{elm.contentId}}', 2)">
+              2
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option3" value='3' onclick="getRank('{{elm.contentId}}', 3)">
+              3
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option4" value='4' onclick="getRank('{{elm.contentId}}', 4)">
+              4
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option5" value='5' onclick="getRank('{{elm.contentId}}', 5)">
+              5
+            </label>
+          </div>
+        </form>
       </div>
-      <hr>
-      <div>
-        <h3 class="mb-4 text-center">{{ user.username }}님의 여행 목록</h3>
+    </div>&emsp;&ensp;
+    {% endfor %}
+  </div><br><br>
+  <div class="card-group">
+    {% for elm in random2 %}
+    <div class="card">
+      <img class="card-img-top" src="{{elm.firstimage}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{elm.title}}
+
+        </h5>
+        <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
+        <form name="popular_site" action="search/search_result.html" method="GET">
+
+          <input type="hidden" name="keyword" value="{{elm.title}}">{% csrf_token %}
+          <!-- <button type="submit" class="btn btn-info" formmethod="POST">더보기</button> -->
+
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option1" value='1' onclick="getRank('{{elm.contentId}}', 1);">
+              1
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option2" value='2' onclick="getRank('{{elm.contentId}}', 2)">
+              2
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option3" value='3' onclick="getRank('{{elm.contentId}}', 3)">
+              3
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option4" value='4' onclick="getRank('{{elm.contentId}}', 4)">
+              4
+            </label>
+            <label class="btn btn-outline-info">
+              <input type="radio" name="options" class="option5" value='5' onclick="getRank('{{elm.contentId}}', 5)">
+              5
+            </label>
+          </div>
+        </form>
+        
       </div>
     </div>
+    {% endfor %}
+    
+</div>
 {% endblock content %}
