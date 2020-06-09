@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+
 urlpatterns = [
     path('', views.index, name ='index'),
     path('plannerchoice/', views.plannerchoice, name ='plannerchoice'),
@@ -12,5 +13,5 @@ urlpatterns = [
     path('viewplan/', views.viewplan, name='tst2'),
     path('reviseplan/', views.reviseplan, name='reviseplan'),
     path('rankplan/', views.rankplan, name='rankplan'),
-    
+
 ]

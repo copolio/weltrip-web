@@ -4,7 +4,7 @@
 {% block content %}
 <title>Weltrip Planner</title>
     <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-9">
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
                 <form method="POST">
@@ -67,17 +67,22 @@
                                     <th scope="col">장소명</th>
                                     <th scope="col">주소</th>
                                     <th scope="col"> </th>
+                                    <th scope="col"> </th>
                                     </thead>
                                     <tbody>
                                     {% for elm in site_searched %}
-                                    <form name="addSite" action="" method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
-                                    <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}">
+                                    
                                     <tr>
                                         <th scope="row">{{elm.title}}</th>
                                         <td>{{elm.addr}}</td>
-                                        <td><button type="submit" class="btn btn-outline-info" >추가</button></td>
+                                        <!-- <td><form name="plan_viewsite" action="search/search_result.html" method="POST" target="_blank">{% csrf_token %}
+                                            <input type="hidden" name="keyword" value="{{elm.title}}">
+                                            <button type="submit" class="btn btn-outline-info" formmethod="POST">상세</button></td></form> -->
+                                        <td>
+                                            <form name="addSite" action="" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
+                                            <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}"><button type="submit" class="btn btn-outline-info" >추가</button></td>
                                     </tr>
                                     </form>
                                     {% endfor %}

@@ -9,6 +9,7 @@ from .forms import searchForm
 from search.models import SearchMeta, SearchObj
 from search.search import *
 from search.rq_class import *
+from collector.datas import basicTable
 import datetime 
 
 
@@ -68,7 +69,6 @@ def connect_search(request):
         if not (request.POST.get('keyword','') == ''):
             
             meta = SearchMeta(key = request.POST['keyword'], user = request.user, date = datetime.datetime.today())
-            print(meta)
             meta.save()
 
             # 결과 처리
@@ -83,9 +83,20 @@ def connect_search(request):
                 tmp = getInfos(elm)
                 details.append(tmp)
             details = checkInfos(details, 'title')
+            rating_tmps = basicTable()
+
             for elm in details:
+                # 각종 코드 한글명으로 치환
                 findGeo(geo_df, elm)
                 findSer(ser_df, elm)
+
+                # 평점 데이터 조회
+                try:
+                    elm['rating_count'] = rating_tmps.at['_count_', str(elm.get('contentid'))]
+                    elm['rating_avr'] = round(rating_tmps.at['_average_', str(elm.get('contentid'))], 2)
+                except:
+                    elm['rating_count'] = '0'
+                    elm['rating_avr'] = '0'
 
             # 무장애정보 조회
             metaInfo.setUrl('http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')

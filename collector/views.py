@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from .datas import *
 
-# Create your views here.
+def testview(request):
+    df1 = basicTable()
+    
+    return render(request, 'collector/testview.html', {'df':df1})
+

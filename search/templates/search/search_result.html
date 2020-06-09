@@ -108,12 +108,13 @@
                         {% endif %}
                         <br></span>
                     {% endif %}
+                    
                     {% endfor %}
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <br><h4 style="font-weight: bold;">{{elm.title}}</h4>
+                    <br><h4 style="font-weight: bold;">{{elm.title}}</h4> | <span style="font-size: 12pt; font-weight: bold;">평균 평점: {{ elm.rating_avr }}({{ elm.rating_count }}명 평가)</span><br>
                     {% for infos in elm.BF %}
                     {% if infos in bf_tags.keys %}
                     <span style="font-size: 12pt; color: blue; text-decoration: underline; font-weight: bold;">

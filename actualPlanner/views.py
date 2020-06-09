@@ -5,6 +5,7 @@ from .models import Planner, Rating
 from users.models import Profile
 
 from search.search import *
+from search.views import *
 from .u_plans import *
 
 
