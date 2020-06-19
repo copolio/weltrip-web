@@ -207,6 +207,30 @@ def popularSites(site_num, pic_option, apiInfo):
 
     return sites
 
+# 0개의 장소 평가를 가지고 있는 초기 사용자에게 top8 장소 평가 제공
+def initialSites(site_num, pic_option, apiInfo):
+    req = tourReq('ETC', 'AppTest', apiInfo.mykey)
+    req.addPara('numOfRows', site_num)
+
+    rn_arrange = random.randint(0,3)
+    rn_geocode = random.randint(1,39)
+
+    if pic_option:
+        req.addPara('arrange', 'P')
+    else:
+        req.addPara('arrange', 'B')
+
+    tmp = parseOne(req.makeReq(apiInfo.url, 'areaBasedList'))
+    
+    results_list = []
+    for elm in tmp:
+        elm_tmp = getInfos(elm)
+        dic_tmp = {'title':elm_tmp.get('title'), 'addr':elm_tmp.get('addr1'), 'contentId':elm_tmp.get('contentid'),
+        'firstimage':elm_tmp.get('firstimage')}
+        results_list.append(dic_tmp)
+
+    return results_list
+
 # 무작위장소 검색(n개, 사진 필수/무방 옵션)
 def randomSites(site_num, pic_option, apiInfo):
     req = tourReq('ETC', 'AppTest', apiInfo.mykey)
@@ -246,6 +270,28 @@ def randomSites(site_num, pic_option, apiInfo):
         results_list.append(dic_tmp)
 
     return results_list
+
+def simUserSites(words, site_num, pic_option, apiInfo):
+    req = tourReq('ETC', 'AppTest', apiInfo.mykey)
+    req.addPara('numOfRows', site_num)
+
+    if pic_option:
+        req.addPara('arrange', 'P')
+    else:
+        req.addPara('arrange', 'B')
+
+    sites = []
+    for i in words :
+        req.addPara('keyword', i)
+        elm = parseOne(req.makeReq(apiInfo.url, 'searchKeyword'))[0]
+        sites.append(getInfos(elm))
+    
+    return sites
+
+
+
+
+
 ### 검색 메소드 -끝-
 
 

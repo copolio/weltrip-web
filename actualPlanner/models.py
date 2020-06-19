@@ -24,3 +24,7 @@ class Rating(models.Model):
     userDType = models.CharField(max_length=10)
     userPType = models.CharField(max_length=10, null=True)
     grade = models.IntegerField()
+
+    def __str__(self):
+        return "user_id: {}, contentName: {}, rating: {}, userDType: {}, userPType:{}"\
+            .format(self.userRated, self.contentName, self.grade, self.userDType, self.userPType)

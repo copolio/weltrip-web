@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'search',
     'actualPlanner',
     'collector',
+    'recommender',
 ]
 
 MIDDLEWARE = [

@@ -64,14 +64,31 @@
               </div>
             </div>&emsp;&ensp;
             {% endfor %}
+          </div><br><br>
+
+          <div class="card-group">
+            {% for elm in userCF %}
+            <div class="card">
+              <img class="card-img-top" src="{{elm.firstimage}}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{elm.title}}
+                </h5>
+                <p class="card-text" style="font-size: 12px;">{{elm.addr1}}</p>
+                <form name="popular_site" action="search/search_result.html" method="GET" target="_blank">
+                    
+                <input type ="hidden" name="keyword" value = "{{elm.title}}">{% csrf_token %}
+                <button type="submit" class="btn btn-info" formmethod="POST">더보기</button>
+                </form>
+              </div>
+            </div>&emsp;&ensp;
+            {% endfor %}
           </div>
+        </div>
 
 
           <br><br><br>
         </center>
-
-
-
 
         
     </div>

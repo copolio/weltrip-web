@@ -8,7 +8,10 @@ from .forms import searchForm
 from search.models import SearchMeta, SearchObj
 from search.search import *
 from search.rq_class import *
+from actualPlanner.models import *
+from django.db.models import Avg, Count, Q
 import datetime 
+from recommender.views import *
 
 
 def home(request):
@@ -19,8 +22,37 @@ def home(request):
     sites1 = sites[0:4]
     sites2 = sites[4:8]
 
+    # 사용자 기반 협업 필터링
+    if len(similar_user('%s' %request.user)['topn']) >= 2 : 
+        targetUser = similar_user('%s' %request.user)['topn'][1][0] 
+        targetRating = Rating.objects.filter(Q(userRated = targetUser)&Q(grade__gte = 4))
+        myRating = Rating.objects.filter(userRated = request.user)
+        
+        targetContents = [i.contentName for i in targetRating]
+        myContents = [i.contentName for i in myRating]
 
-    return render(request, 'planner/home.html', {'popular1': sites1, 'popular2' : sites2,})
+        recs = [ i for i in targetContents if i not in myContents ]
+
+        if len(recs) < 4 :
+            if len(similar_user('%s' %request.user)['topn']) >= 3 : 
+                targetUser = similar_user('%s' %request.user)['topn'][2][0]
+                targetRating = Rating.objects.filter(Q(userRated = targetUser)&Q(grade__gte = 4))
+                myRating = Rating.objects.filter(userRated = request.user)
+                
+                targetContents = [i.contentName for i in targetRating]
+                myContents = [i.contentName for i in myRating]
+
+                for i in targetContents :
+                    if i not in myContents :
+                        recs.append(i)
+
+        sites3 = simUserSites(recs, 4, True, appinfo)
+        sites3 = sites3[:4]
+    else :
+        sites3 = []
+
+
+    return render(request, 'planner/home.html', {'popular1': sites1, 'popular2' : sites2, 'userCF' : sites3,})
 
 """
 def pop_sites(request):
@@ -56,6 +88,49 @@ def pop_sites(request):
     else:
         return redirect('planner/home.html')
 """
+
+def similar_user(user_id, sim_method = 'pearson'):
+    min = 1
+
+    ratings = Rating.objects.filter(userRated = user_id)
+    sim_users = Rating.objects.filter(contentName__in=ratings.values('contentName')) \
+        .values('userRated') \
+        .annotate(intersect=Count('userRated')).filter(intersect__gt=min)
+
+    dataset = Rating.objects.filter(userRated__in=sim_users.values('userRated'))
+
+    users = {u['userRated']: {} for u in sim_users}
+
+    for row in dataset:
+        if row.userRated in users.keys():
+            users[row.userRated][row.contentName] = row.grade
+
+    similarity = dict()
+
+    switcher = {
+        'jaccard': jaccard,
+        'pearson': pearson,
+    }
+
+    for user in sim_users:
+
+        func = switcher.get(sim_method, lambda: "nothing")
+        s = func(users, user_id, user['userRated'])
+
+        if s > 0.2:
+            similarity[user['userRated']] = round(s, 2)
+    topn = sorted(similarity.items(), key=operator.itemgetter(1), reverse=True)[:10]
+
+    data = {
+        'user_id': user_id,
+        'num_places_rated': len(ratings),
+        'type': sim_method,
+        'topn': topn,
+        'similarity': topn,
+    }
+
+    return data
+
 
 
 def connect_search(request):

@@ -31,15 +31,21 @@ def register(request):
 def profile(request):
     appinfo = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D',
                         'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
-    sites = randomSites(8, True, appinfo)
+    
+    dis_ratings = Rating.objects.filter(userRated=request.user).count()
+    if (dis_ratings != 0) :
+        sites = randomSites(8, True, appinfo)
+    else :
+        sites = initialSites(8, True, appinfo)
+
+    # sites = randomSites(8, True, appinfo)
     sites1 = sites[0:4]
     sites2 = sites[4:8]
     
     if 'ratings' in request.POST and (request.POST['ratings'] != '{}'):
         print(request.POST['ratings'])
-        datas = toDict(request.POST.get('ratings'))
         dis_user = Profile.objects.get(user=request.user)
-
+        datas = toDict(request.POST.get('ratings'))
         dis_type = dis_user.disability
         pre_type = dis_user.preference
         user_name = request.user
