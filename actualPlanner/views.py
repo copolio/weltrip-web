@@ -9,7 +9,7 @@ from search.views import *
 from .u_plans import *
 
 
-
+# 테스트용함수 #
 def viewplan(request):
     if 'id_userplan' in request.POST and request.POST['id_userplan']:
         user_input = request.POST['id_userplan']
@@ -26,9 +26,11 @@ def viewplan(request):
         
         return render(request, 'planner/viewplan.html', {'plan_slct':plan_output})
 
+
     else:
         return render(request, 'planner/viewplan.html')
 
+# 테스트용 함수 #
 def cplan(request):
     if 'search-key' in request.POST and request.POST['search-key']:
         siteKey = request.POST['search-key']
@@ -73,15 +75,29 @@ def createplan(request):
 
         user_input = request.user
         user_output = callPlans(user_input)
+
         return render(request, 'planner/createplan.html', {'plan_list':user_output})
 
     if request.user or user:
         user_input = request.user
         user_output = callPlans(user_input)
+    
         return render(request, 'planner/createplan.html', {'plan_list':user_output})
 
     else:
         return render(request, 'planner/createplan.html')
+
+def directplan(request):
+    if ('add_request_user' in request.POST and request.POST['add_request_user']) and ('contentId' in request.POST and request.POST['contentId']):
+        user_input = request.POST.get('add_request_user')
+        user_output = callPlans(user_input)
+        add_cId = request.POST.get('contentId')
+        add_cName = request.POST.get('contentName')
+        return render(request, 'planner/createplan_direct.html', {'plan_list':user_output, 'add_cId':add_cId, 'add_cName':add_cName, 'add_user':user_input,})
+        
+    else:
+        return render(request, 'planner/createplan_direct.html')
+    
 
 def makeplanid(request):
 
@@ -91,6 +107,13 @@ def makeplanid(request):
 
         user_input = request.user
         user_output = callPlans(user_input)
+
+        if request.POST.get('is_direct') == 'TRUE':
+            add_cId = request.POST.get('contentId')
+            add_cName = request.POST.get('contentName')
+            add_user = request.POST.get('add_request_user')
+            return render(request, 'planner/createplan_direct.html', {'plan_list':user_output, 'contentId':add_cId, 'contentName':add_cName, 'add_request_user':add_user,})
+
         return render(request, 'planner/createplan.html', {'plan_list':user_output})
     else:
         return render(request, 'planner/makeplanid.html')

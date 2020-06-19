@@ -1,11 +1,11 @@
 from actualPlanner.models import Rating
+from search.models import ClickDetail
 import pandas as pd
 import numpy as np
 
 
 
-# 원하는 target row 값을 인자로 주면
-# target행, 장소 열, 평가값 내용을 가지는 데이터프레임 반환
+
 def basicTable():
     # 장소 열 값 생성
     all_data = Rating.objects.all().values()
@@ -17,7 +17,7 @@ def basicTable():
         else: column_sites.append(tmp)
 
 
-    # target row 생성
+    # 유저이름 행 값 생성
     try:
         tmp_row_items = []
         for items in all_data:
@@ -62,9 +62,32 @@ def basicTable():
     df_count_ = df_count_.rename(index={0: '_count_'})
     result = result.append(df_count_)
     result = result.append(df_avr_)
-
-    print(result)
     
     return result
 
 
+
+def userHisTable(username):
+
+    try:
+        dataset = ClickDetail.objects.filter(userId=username)
+
+        result = pd.DataFrame(columns = ['contentId', 'cat1', 'cat2', 'cat3', 'date'])
+        
+        for elm in dataset:
+            cId = elm.contentId
+            cat1 = elm.cat1
+            cat2 = elm.cat2
+            cat3 = elm.cat3
+            date = elm.date
+            s = pd.Series([cId, cat1, cat2, cat3, date], index = ['contentId', 'cat1', 'cat2', 'cat3', 'date'])
+        
+            result = result.append(s, ignore_index=True)
+        
+        return result
+
+
+    except:
+        # db 조회 실패시 리턴
+        result = pd.DataFrame({'000000':np.nan,})
+        return result

@@ -16,6 +16,7 @@ class ClickDetail(models.Model):
     cat1 = models.CharField(max_length=20)
     cat2 = models.CharField(max_length=20)
     cat3 = models.CharField(max_length=20)
+    date = models.DateTimeField('date')
 
     
 

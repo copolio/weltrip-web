@@ -132,6 +132,21 @@
                         <input type = "hidden" name ="contentTypeId" value = "{{elm.contenttypeid}}">
                         <button type="submit" class="btn btn-info" formmethod="POST">상세정보보기</button>
                     </form>
+                
+                    {% if user.is_authenticated %}
+                    <form name="addForm" action="{% url 'directplan' %}" method="POST" target="_blank">
+                        {% csrf_token %}
+                        <input type = "hidden" name ="contentId" value = "{{elm.contentid}}">
+                        <input type = "hidden" name = "add_request_user" value = "{{request.user}}">
+                        <input type = "hidden" name = "contentName" value = "{{elm.title}}">
+
+                        <button type="submit" class="btn btn-info" formmethod="POST" >일정에추가하기</button>
+                    </form>
+                    
+                    {% else %}
+                    <button type="button" class="btn btn-info" onclick="location.href='{% url 'login' %}'">일정에추가하기</button>
+
+                    {% endif %}
                 </div>
             </div>
         </div><br><hr class="mid-line"><br>

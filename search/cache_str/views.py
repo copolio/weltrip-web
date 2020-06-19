@@ -1,16 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
+
+
+
+
 from django.http import HttpResponse
-
-from .models import SearchMeta, SearchObj, ClickDetail
-from users.models import Profile
-
+from .models import SearchMeta, SearchObj
 from .forms import searchForm
 
 import datetime
 
+
 from .search import *
 from .rq_class import *
-from collector.datas import basicTable
 
 
 
@@ -24,34 +25,6 @@ def s_detail(request):
         
         infos = searchDetails(contentId, contentTypeId, metaInfo)
 
-
-
-        # 클릭한 장소 관련 데이터 저장
-        tour_tmp = tourReq('ETC', 'AppTest', metaInfo.mykey)
-        tour_tmp.addPara('contentId', contentId)
-        tour_tmp.addPara('catcodeYN', 'Y')
-        tour_tmp.addPara('defaultYN', 'Y')
-        req_tmp = tour_tmp.makeReq(metaInfo.url, 'detailCommon')
-
-        tmp = requests.get(req_tmp)
-        soup = BeautifulSoup(tmp.content, 'html.parser')
-
-        cat1_t = getInfos(str(soup.find_all('cat1'))).get('cat1')
-        cat2_t = getInfos(str(soup.find_all('cat2'))).get('cat2')
-        cat3_t = getInfos(str(soup.find_all('cat3'))).get('cat3')
-        catdic = {'cat1':cat1_t, 'cat2':cat2_t, 'cat3':cat3_t}
-        findSer(ser_df, catdic)
-
-
-        title_t = getInfos(str(soup.find_all('title'))).get('title')
-        user_t = request.user
-        try:
-            user_tmp = Profile.objects.get(user=request.user)
-            dis_t = user_tmp.disability
-        except:
-            dis_t = 'NA'
-        
-        ClickDetail(contentId = contentId, contentName = title_t, userId = user_t, userType = dis_t, cat1 = catdic.get('cat1'), cat2 = catdic.get('cat2'), cat3 = catdic.get('cat3')).save()
 
 
 
@@ -90,29 +63,14 @@ def k_search(request):
                 tmp = getInfos(elm)
                 details.append(tmp)
             details = checkInfos(details, 'title')
-            rating_tmps = basicTable()
             for elm in details:
-                # 각종 코드 한글명으로 치환
                 findGeo(geo_df, elm)
                 findSer(ser_df, elm)
-
-                # 평점 데이터 조회
-                try:
-                    print(elm.get('contentid'))
-                    elm['rating_count'] = rating_tmps.at['_count_', elm.get('contentid')]
-                    elm['rating_avr'] = round(rating_tmps.at['_average_', str(elm.get('contentid'))], 2)
-                except:
-                    elm['rating_count'] = '0'
-                    elm['rating_avr'] = '0'
-
-
             # 무장애정보 추가조회
             metaInfo.setUrl('http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
             for elm in details:
                 bfinfo = searchBF(elm['contentid'], metaInfo)
                 elm['BF'] = bfinfo
-
-
             
 
             # 결과 페이지로 이동

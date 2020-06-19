@@ -1,0 +1,61 @@
+{% extends "planner/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title>Weltrip Planner</title>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="content-selection">
+                <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+                
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 text-center">'{{add_cName}}'을(를) 다음 일정에 추가합니다.</legend>
+      
+                        <table class="table table-sm table-skyblue">
+                            <thead>
+                              <th scope="col">No.</th>
+                              <th scope="col">나의 일정</th>
+                              <th scope="col"></th>
+                            </thead>
+                            <tbody>
+                                {% if plan_list %}
+                                {% for elm in plan_list %}
+                                <tr>
+                                    <th scope="row">{{elm.id}}</th>
+                                    <td>{{elm.title}}</td>
+                                    <td>
+                                        <form name="return_pk" action="{% url 'reviseplan' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="pk_userplan" value="{{elm.id}}">
+                                            <input type="hidden" name="siteAdded" value="{{contentId}}">    
+                                            
+                                        <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" onClick="location.href='{% url 'reviseplan' %}'">선택</button></form>
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <p class="lead">
+                            <form name ="direct_check" action="{% url 'makeplanid' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="is_direct" value="TRUE">
+                            <input type="hidden" name="add_cId" value="{{add_cId}}">
+                            <input type="hidden" name="add_cName" value="{{add_cName}}">
+                            <input type="hidden" name="add_user" value="{{add_user}}">
+                            <button type="submit" class="btn btn-info btn-block" formmethod="POST">새로운 일정 생성</button>
+                            </form>
+                            
+                        </p>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
