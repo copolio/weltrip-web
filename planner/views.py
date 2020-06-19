@@ -13,6 +13,7 @@ import datetime
 #컨텐츠 추천 모듈과 연결 - 작성자: 김기정
 from recs.content_based_recommender import *
 from django.template.defaulttags import register
+from collector.datas import *
 
 
 @register.filter
@@ -27,7 +28,7 @@ def home(request):
     sites1 = sites[0:4]
     sites2 = sites[4:8]
     if request.user.is_authenticated: #추천 장소 출력 - 작성자: 김기정
-        recKey = 322836
+        recKey = userHisTable(request.user.username)['contentId'].iloc[-1] #322836 ##테스트용 키
         recSpots = get_recommend_place_list_content(data, recKey)
         dicSpots = list(recSpots.to_dict().values())
         recimg = dicSpots[8]

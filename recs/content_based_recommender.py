@@ -26,5 +26,5 @@ def get_recommend_place_list_content(df, contentid, top=30):
     sim_index = sim_index[sim_index != target_place_index]
 
     # data frame으로 만들고 readcount순으로 정렬한 뒤 return
-    result = df.iloc[sim_index].sort_values('readcount', ascending=False)[:10]
+    result = df.iloc[sim_index].sort_values('readcount', ascending=False)[:100]
     return result

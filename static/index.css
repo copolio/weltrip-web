@@ -1,18 +1,17 @@
 body {
   padding-top: 5rem;
 }
-.search_bar{
+.searchbar{
   margin-bottom: auto;
   margin-top: auto;
   height: 60px;
-  /*width: 500px;*/
   background-color: #5bc0de;
   border-radius: 30px;
   padding: 10px;
   box-shadow: 3px 3px 3px 3px grey;
   }
 
-  .searchbar{
+  .search_input{
   color: white;
   border: 0;
   outline: 0;
@@ -23,14 +22,14 @@ body {
   transition: width 0.4s linear;
   }
 
-  .search_bar > .searchbar{
+  .searchbar > .search_input{
   padding: 0 10px;
   width: 450px;
   caret-color:white;
   transition: width 0.4s linear;
   }
 
-  .search_bar > .search_icon{
+  .searchbar > .search_icon{
   background: white;
   color: #5bc0de;
   }
