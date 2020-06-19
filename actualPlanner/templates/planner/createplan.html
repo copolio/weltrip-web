@@ -2,30 +2,62 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+
 <title>Weltrip Planner</title>
 
     <div class="row justify-content-center">
-        <div class="col-5">
+        <div class="col-6">
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
-                <form method="POST">
-                    {% csrf_token %}
+                
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4 text-center">자신만의 일정표를 생성하세요.</legend>
       
                         <table class="table table-sm table-skyblue">
-                          <thead>
-                            <th scope="col">No.</th>
-                            <th scope="col">  나의 일정  </th>
-                            <th scope="col">선택</th>
-                          </thead>
+                            <thead>
+                              <th scope="col">No.</th>
+                              <th scope="col">나의 일정</th>
+                              <th scope="col"></th>
+                              <th scope="col"></th>
+                              <th scope="col"></th>
+                            </thead>
+                            <tbody>
+                                {% if plan_list %}
+                                {% for elm in plan_list %}
+                                <tr>
+                                    <th scope="row">{{elm.id}}</th>
+                                    <td>{{elm.title}}</td>
+                                    <td>
+                                        <form name="return_pk" action="{% url 'reviseplan' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="pk_userplan" value="{{elm.id}}">    
+                                        <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" onClick="location.href='{% url 'reviseplan' %}'">수정</button></form>
+                                    </td>
+                                    <td>
+                                        <form name="return_pk" action="" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="pk_del" value="{{elm.id}}">
+                                            <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST">삭제</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form name="return_pk" action="{% url 'rankplan' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="pk_rating" value="{{elm.id}}">
+                                            <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" onclick="location.href='{% url 'rankplan' %}'">평가</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
                         </table>
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
                         <p class="lead">
                             <a href="{% url 'makeplanid' %}" class="btn btn-info btn-block">새로운 일정 생성</a>
-                            <a href="{% url 'reviseplan' %}" class="btn btn-info btn-block">나의 일정 수정</a>
+                            <!-- <a href="{% url 'reviseplan' %}" class="btn btn-info btn-block">나의 일정 수정</a> -->
                             <a href="{% url 'rankplan' %}" class="btn btn-info btn-block">나의 일정 평가</a>
                         </p>
                     </div>

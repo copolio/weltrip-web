@@ -2,7 +2,6 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<title>Weltrip Planner</title>
     <div class="row justify-content-center">
         <div class="col-5">
             <div class="content-selection">
@@ -11,13 +10,12 @@
                     {% csrf_token %}
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4 text-center">Plan for Barrier-free tour</legend>
-                        <legend class="border-bottom mb-4 text-center">설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</legend>
+                        <legend class="border-bottom mb-4 text-center">Weltrip Planner와 함께 당신의 행복을 그려보세요. </legend>
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
                         <p class="lead">
-                            <a href="{% url 'createplan' %}" class="btn btn-info btn-block">여행일정 생성하기</a>
-                            <a href="{% url 'showplan' %}" class="btn btn-info btn-block">나만의 여행일정</a>
+                            <a href="{% url 'plannerchoice' %}" class="btn btn-info btn-block">Welplan</a>
                         </p>
                     </div>
                 

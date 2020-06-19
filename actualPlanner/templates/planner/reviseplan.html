@@ -4,7 +4,7 @@
 {% block content %}
 <title>Weltrip Planner</title>
     <div class="row justify-content-center">
-        <div class="col-5">
+        <div class="col-8">
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
                 <form method="POST">
@@ -17,7 +17,29 @@
                             <th scope="col">No.</th>
                             <th scope="col">나의 여행 경로</th>
                             <th scope="col">체류시간</th>
+                            <th scope="col"> </th>
                           </thead>
+                          {% if plan_slct %}
+                          <tbody>
+                            {% for nodes in plan_slct.plan %}
+                              <tr>
+                                  <th scope="row"></th>
+                                  <td>{{nodes.item.siteName}}</td>
+                                  <td>{{nodes.item.siteTime}}</td>
+                                  <td>
+                                    <form name="delSite" action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="sitetoDel" value="{{nodes.item.siteId }}">
+                                    <input type="hidden" name="pk_userplan" value="{{pk_userplan}}">
+                                      <button type="submit" class="btn btn-secondary btn-sm">삭제</button>
+                                    </form>
+                                    </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                          {% endif %}
+
+
                         </table>
  
 
@@ -25,18 +47,20 @@
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
+                        <center>
                         <p class="lead">
                             
                             <form name="search-key" action="" method="POST">
                                 {% csrf_token %}
                             <input type="text" placeholder="일정에 추가할 장소를 적어주세요." style="width:400px;height:28px;font-size:18px;" name="search-key">
+                            <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}">
                                 
-                            <p class="lead"><br>
+                            
                                 <button type="submit" class="btn btn-light" formmethod="POST">장소 검색</button>
                                 <!--<button type="submit" class="btn btn-light" formmethod="POST">일정 완료</button>
                                 <a href="{% url 'showplan' %}" class="btn btn-default btn-secondary">일정 완료</a>-->
-                                </form>
-                              </p>
+                                </form></center>
+                              
                             <!-- 검색결과 표출 부분 -->
                                 <table class="table table-sm table-blus">
                                     <thead>
@@ -49,10 +73,11 @@
                                     <form name="addSite" action="" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
+                                    <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}">
                                     <tr>
                                         <th scope="row">{{elm.title}}</th>
                                         <td>{{elm.addr}}</td>
-                                        <td><button type="submit" class="btn btn-outline-info">추가</button></td>
+                                        <td><button type="submit" class="btn btn-outline-info" >추가</button></td>
                                     </tr>
                                     </form>
                                     {% endfor %}

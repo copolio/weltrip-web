@@ -1,0 +1,37 @@
+<head>
+    <title>DB 입출력 테스트</title>
+</head>
+
+<body>
+    <div>---DB 입출력 테스트용 페이지임---</div>
+    <br><br>
+    <form name="get_userplans" action="" method="POST">
+        {% csrf_token %}
+        <input type="text" name="id_userplan" placeholder="유저 아이디 입력">
+    </form>
+    <br>
+    <p>----------------------------------</p><br>
+    {% if plan_list %}
+    {% for elm in plan_list %}
+>
+    <p>일정표 제목: {{ elm.title }}</p>
+    <p>일정표 내용: {{ elm.contents }}</p>
+    <form name="return_pk" action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="pk_userplan" value="{{elm.id}}">
+        <button type="submit" class="btn btn-success" formmethod="POST">선택</button>
+    </form>
+    {% endfor %}
+    {% endif %}
+
+    {% if plan_slct %}
+    <p>선택된 일정표 입니다.</p>
+    {% for nodes in plan_slct.plan %}
+    <p>{{nodes.item}}</p>
+    {% endfor %}
+    <p>{{plan_slct.userId}}</p>
+    {% endif %}
+
+    <p>마침.</p>
+
+</body>

@@ -7,7 +7,7 @@
         <div class="col-5">
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
-                <form method="POST">
+                
                     {% csrf_token %}
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4 text-center">새로운 여행 일정 생성하기</legend>
@@ -15,15 +15,14 @@
                         {{ form|crispy }}
                     </fieldset>
                 <p>           
-                    <form name="search-key" action="" method="POST">
+                    <form name="new_plan" action="" method="POST">
                         {% csrf_token %}
-                      <input type="text" placeholder="새로운 일정 이름을 적어주세요" style="width:400px;height:30px;font-size:20px;" name="search-key">
+                      <input type="text" placeholder="새로운 일정 이름을 적어주세요" style="width:400px;height:30px;font-size:20px;" name="new_plan_title">
                 
                     <div class="form-group">
                 </p> 
                         <p class="lead">
-                            <a href="{% url 'createplan' %}" class="btn btn-info btn-block">여행일정 생성하기</a>
-                        </p>
+                            <button type="submit" class="btn btn-info btn-block" formmethod="POST" onclick="location.href='{% url 'createplan' %}'">여행일정 생성하기</p></form>
                     </div>
                 
             </div>

@@ -6,9 +6,12 @@ from search.rq_class import *
 class Node: # node: 장소 단위(1개 장소)
     
     def __init__(self):
-        self.item = {'siteId':'', 'siteName':'', 'siteTime':'', 'siteType':1,}
+        self.item = {'siteId':'', 'siteName':'', 'siteTime':'', 'siteType':1, 'rated':False}
     # type value(int): 
     # 0 - start point, 1 - mid point, 2 - end point
+
+    def getRated(self):
+        self.item['rated'] = True
 
     def modiNode(self, key, value):
         self.item[key] = value
@@ -42,14 +45,19 @@ class userPlan(Node): # Node로 이루어진 리스트 형태
 
     def __init__(self):
         self.plan = []
-        self.userId = ()
+        self.userId = ''
+        self.rated = False
+    
+    def planRated(self):
+        self.rated = True
     
     def addNode(self, Node):
         self.plan.append(Node)
     
     def delNode(self, NodeId):
         for i in range(0, len(self.plan)):
-            if self.plan[i]['siteId'] == NodeId:
+            tmp = self.plan[i]
+            if tmp.item.get('siteId') == NodeId:
                 pos = i
                 break
         del self.plan[pos]
@@ -57,7 +65,7 @@ class userPlan(Node): # Node로 이루어진 리스트 형태
     def getString(self):
         string = ''
         for elm in self.plan:
-            string += '&{0}:{1}'.format(elm.get('siteId'), elm.get('siteTime'))
+            string += '{0}:{1}&'.format(elm.item.get('siteId'), elm.item.get('siteTime'))
         return string
 
     pass

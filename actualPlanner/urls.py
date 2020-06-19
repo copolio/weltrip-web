@@ -9,7 +9,9 @@ urlpatterns = [
     path('makeplanid/', views.makeplanid, name ='makeplanid'),
     path('showplan/', views.showplan, name ='showplan'),
     path('cplan/', views.cplan, name='cplan'),
+    path('viewplan/', views.viewplan, name='tst2'),
     path('reviseplan/', views.reviseplan, name='reviseplan'),
     path('rankplan/', views.rankplan, name='rankplan'),
+    path('test/', views.test, name='test'),
     
 ]

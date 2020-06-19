@@ -4,67 +4,105 @@
 {% block content %}
 <title>Weltrip Planner</title>
     <div class="row justify-content-center">
-        <div class="col-5">
+        <div class="col-7">
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
-                <form method="POST">
-                    {% csrf_token %}
+                
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4 text-center">나의 일정 평가하기</legend>
       
                         <table class="table table-sm table-skyblue">
                           <thead>
                             <th scope="col">No.</th>
-                            <th scope="col">나의 여행 경로</th>
+                            <th scope="col">장소명</th>
                             <th scope="col">평가하기</th>
                           </thead>
 
+                          {% if plan_to_rank %}
+                          
+                          <tbody>
+                            {% for nodes in plan_to_rank.plan %}
+                            
+                            <tr>
+                              <th scope="row"></th>
+                              <td>{{nodes.item.siteName}}</td>
+                              <td>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label class="btn btn-outline-info">
+                                    <input type="radio" name="options" class="option1" value='1' onclick="getRank({{nodes.item.siteId}}, 1)"> 1
+                                  </label>
+                                  <label class="btn btn-outline-info">
+                                    <input type="radio" name="options" class="option2" value='2' onclick="getRank({{nodes.item.siteId}}, 2)"> 2
+                                  </label>
+                                  <label class="btn btn-outline-info">
+                                    <input type="radio" name="options" class="option3" value='3' onclick="getRank({{nodes.item.siteId}}, 3)"> 3
+                                  </label>
+                                  <label class="btn btn-outline-info">
+                                    <input type="radio" name="options" class="option4" value='4' onclick="getRank({{nodes.item.siteId}}, 4)"> 4
+                                  </label>
+                                  <label class="btn btn-outline-info">
+                                    <input type="radio" name="options" class="option5" value='5' onclick="getRank({{nodes.item.siteId}}, 5)"> 5
+                                  </label>
+                                </div></td>
+                                
+                            </tr>
+                          
+                            {% endfor %}
+                          </tbody>
+                          
+                          {% endif %}
+
 
                          <!--그냥 예를 들어 평가하기 구현-->
- 
-                            <thead>
-                              <th scope="col">Ex)</th>
-                              <th scope="col">경복궁</th>
-                              <th scope="col"><div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                  <button type="button" class="btn btn-info">1</button>
-                                  <button type="button" class="btn btn-info">2</button>
-                                  <button type="button" class="btn btn-info">3</button>
-                                  <button type="button" class="btn btn-info">4</button>
-                                  <button type="button" class="btn btn-info">5</button>
-                                </div></th>
-                            </thead>
-
-                            <thead>
-                                <th scope="col">Ex)</th>
-                                <th scope="col">대학로</th>
-                                <th scope="col"><div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                  <div class="btn-group mr-2" role="group" aria-label="First group">
-                                    <button type="button" class="btn btn-info">1</button>
-                                    <button type="button" class="btn btn-info">2</button>
-                                    <button type="button" class="btn btn-info">3</button>
-                                    <button type="button" class="btn btn-info">4</button>
-                                    <button type="button" class="btn btn-info">5</button>
-                                  </div></th>
-                              </thead>
 
                         <!-- 여기까지-->
 
                         </table>
 
 
-
-
-
-                        {{ form|crispy }}
+                        <!-- {{ form|crispy }} -->
                     </fieldset>
                     
-      <!-- 검색결과 표출부 끝 -->
-                            <!--<a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 장소 추가</a>-->
+      
+                            
                         <p>
-                            <a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 평가 완료</a>
-                            <!--<button type="submit" a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 평가 완료</button>-->
+                            <!-- <a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 평가 완료</a> -->
+                            <form name="ratings" action="" method="POST">
+                              {% csrf_token %}
+                              <input name="ratings" id="rating_form" type="hidden">
+                            <button type="submit" action="" formmethod="POST" class="btn btn-info btn-block" onclick="finalSubmit()">일정 평가 완료</button></form>
+                           
+
+                            <script>//평과 결과 사전형으로 저장 -> JSON으로 파싱
+                              var rankval = {}
+                              
+                              function getRank(k,v){
+                                rankval[k]=v
+                              }
+                            
+                              function JSONRankVal(){
+                                return JSON.stringify(rankval)
+                              }
+                            
+                              
+                          
+                              function finalSubmit(){
+                                document.getElementById("rating_form").value = JSONRankVal();                    
+                              }
+                            
+                        
+                            </script>
+
+
+
+
+
+
                         </p>
+
+
+
+
                     </div>
                 
             </div>
