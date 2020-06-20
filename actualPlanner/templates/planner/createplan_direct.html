@@ -10,7 +10,7 @@
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
                 
                     <fieldset class="form-group">
-                        <legend class="border-bottom mb-4 text-center">'{{add_cName}}'을(를) 다음 일정에 추가합니다.</legend>
+                        <legend class="border-bottom mb-4 text-center">'{{request.POST.contentName}}'을(를) 다음 일정에 추가합니다.</legend>
       
                         <table class="table table-sm table-skyblue">
                             <thead>
@@ -28,7 +28,7 @@
                                         <form name="return_pk" action="{% url 'reviseplan' %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="pk_userplan" value="{{elm.id}}">
-                                            <input type="hidden" name="siteAdded" value="{{contentId}}">    
+                                            <input type="hidden" name="siteAdded" value="{{request.POST.contentId}}">    
                                             
                                         <button type="submit" class="btn btn-secondary btn-sm" formmethod="POST" onClick="location.href='{% url 'reviseplan' %}'">선택</button></form>
                                     </td>
