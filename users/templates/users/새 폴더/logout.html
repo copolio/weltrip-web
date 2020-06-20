@@ -1,0 +1,26 @@
+{% extends "planner/base.html" %}
+{% load static %}
+{% block content %}
+    <div class = "container">
+        <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+        <div class="row">
+            <div class="col ml-auto text-center"><h2>로그아웃되었습니다.</h2></div>
+        </div>
+    </div>
+    <div class = "border-top pt-4">
+        <div class="row text-center">
+            <div class="col">
+                <small>
+                    <a href="{% url 'planner-home' %}" class="text-info">홈으로 돌아가기</a>
+                </small>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <small>
+                    <a href="{% url 'login' %}" class="text-info">다시 로그인하기</a>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

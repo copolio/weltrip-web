@@ -1,0 +1,20 @@
+{% extends "planner/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <div class="content-section">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4 text-center"><h3>프로필에 변경 사항이 있나요?</h3></legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group text-center">
+            <button class="btn btn-outline-info" type="submit">프로필 수정</button>
+            <button class="btn btn-outline-info" type="reset">취소</button> 
+        </div>
+     </form>
+    </div>
+{% endblock content %}

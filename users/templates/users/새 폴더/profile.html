@@ -1,0 +1,21 @@
+{% extends "planner/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+          <form action = "{% url 'profile_update' %}">
+            <button class="btn btn-outline-info">프로필 수정</button>
+          </form>
+        </div>
+      </div>
+      <hr>
+      <div>
+        <h3 class="mb-4 text-center">{{ user.username }}님의 여행 목록</h3>
+      </div>
+    </div>
+{% endblock content %}

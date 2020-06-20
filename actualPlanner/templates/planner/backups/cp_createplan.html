@@ -1,0 +1,77 @@
+{% load static %}
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'planner/creatplan.css' %}">
+
+</head>
+
+  
+  <body class="text">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Weltrip Planner</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="{% url 'index' %}">Planner</a>
+            <a class="nav-link" href="#">Valuation</a>
+          </nav>
+        </div>
+      </header>
+  
+      <main role="main" class="inner cover">
+
+
+
+        <h1 class="cover-heading">일정 추가 장소를 기입하세요.</h1>
+        <!--<p class="lead">당신의 행복한 무장애여행을 위한 동반자 Weltrip의 여행일정 계획 기능입니다. 설레는 마음으로 여행일정을 그려보고 자신만의 두근거리는 일정을 확인하세요.</p>-->
+        <label>장소기입
+          <form name="search-key" action="" method="POST">
+            {% csrf_token %}
+          <input type="text" placeholder="원하는 장소를 적어주세요" style="width:500px;height:30px;font-size:20px;" name="search-key">
+          
+        </label>
+        
+        
+        <p class="lead"><br>
+          <a href="{% url 'createplan' %}" class="btn btn-default btn-secondary">장소 추가</a>
+          <a href="{% url 'showplan' %}" class="btn btn-default btn-secondary">일정 완료</a>
+
+          
+          <button type="submit" class="btn btn-light" formmethod="POST">장소 검색</button>
+          </form>
+        </p>
+      </main>
+
+
+      <!-- 검색결과 표출 부분 -->
+      <table class="table table-sm table-dark">
+        <thead>
+          <th scope="col">장소명</th>
+          <th scope="col">주소</th>
+          <th scope="col"> </th>
+        </thead>
+        <tbody>
+          {% for elm in site_searched %}
+        <form name="addSite" action="" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
+          <tr>
+            <th scope="row">{{elm.title}}</th>
+            <td>{{elm.addr}}</td>
+            <td><button type="submit" class="btn btn-outline-info">추가</button></td>
+          </tr>
+        </form>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- 검색결과 표출부 끝 -->
+
+  
+      <footer class="mastfoot mt-auto">
+        <p class="lead">무장애여행 동반자 Weltrip</p>
+      </footer>
+    </div>
+  </body>
+ 
