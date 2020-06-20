@@ -13,16 +13,25 @@ from django.db.models import Avg, Count, Q
 import datetime 
 from recommender.views import *
 
+#컨텐츠 추천 모듈과 연결 - 작성자: 김기정
+from recs.content_based_recommender import *
+from django.template.defaulttags import register
+from collector.datas import *
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 
 def home(request):
-
     # 인기장소 표출 - 작성자: 이혜인
     appinfo = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
     sites = popularSites(8, True, appinfo)
     sites1 = sites[0:4]
     sites2 = sites[4:8]
 
-    # 사용자 기반 협업 필터링
+    # 사용자 기반 협업 필터링 - 작성자 : 원윤희
     if len(similar_user('%s' %request.user)['topn']) >= 2 : 
         targetUser = similar_user('%s' %request.user)['topn'][1][0] 
         targetRating = Rating.objects.filter(Q(userRated = targetUser)&Q(grade__gte = 4))
@@ -51,8 +60,18 @@ def home(request):
     else :
         sites3 = []
 
-
-    return render(request, 'planner/home.html', {'popular1': sites1, 'popular2' : sites2, 'userCF' : sites3,})
+    #추천 장소 출력 - 작성자: 김기정
+    if request.user.is_authenticated: 
+        recKey = userHisTable(request.user.username)['contentId'].iloc[-1] #322836 ##테스트용 키
+        recSpots = get_recommend_place_list_content(data, recKey)
+        dicSpots = list(recSpots.to_dict().values())
+        recimg = dicSpots[8]
+        rectitle = dicSpots[17]
+        recaddr = dicSpots[0]
+        reckeys = list(recimg.keys())
+        return render(request, 'planner/home.html', context = {'popular1': sites1, 'popular2' : sites2, 'userCF' : sites3, 'recimg' : recimg, 'rectitle' : rectitle, 'recaddr' : recaddr, 'recSpots' : recSpots, 'reckeys' : reckeys,})
+    else:
+        return render(request, 'planner/home.html', {'popular1': sites1, 'popular2' : sites2,})
 
 """
 def pop_sites(request):
