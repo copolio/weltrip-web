@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from .rq_class import *
 
 
+
 ### 데이터 처리 메소드
 def findTag(lst, tag):
     return lst[lst.index(tag)+1]
@@ -77,9 +78,11 @@ def getInfos(tag_obj):
     while '' in tmp: tmp.remove('')
     while '[' in tmp: tmp.remove('[')
     while ']' in tmp: tmp.remove(']')
+    while '\n' in tmp: tmp.remove('\n')
 
     # 요소 정리
     infos = {}
+    
     try:
         for i in range(0, len(tmp), 2):
             infos[tmp[i]] = tmp[i+1]
@@ -105,38 +108,46 @@ def checkInfos(lst, key):
 def findGeo(df, dic):
     if not geo_file: return
 
-    result = {'code1':'', 'code2':'',}
+    try:
+        result = {'code1':'', 'code2':'',}
 
-    val1 = int(dic['areacode'])
-    val2 = int(dic['sigungucode'])
+        val1 = int(dic['areacode'])
+        val2 = int(dic['sigungucode'])
 
-    row = df[ (df['city_code'] == val1) & (df['sigungu_code'] == val2) ]
+        row = df[ (df['city_code'] == val1) & (df['sigungu_code'] == val2) ]
 
-    result['code1'] = row.iloc[0, 1]
-    result['code2'] = row.iloc[0, 3]
+        result['code1'] = row.iloc[0, 1]
+        result['code2'] = row.iloc[0, 3]
 
-    dic['areacode'] = result['code1']
-    dic['sigungucode'] = result['code2']
+        dic['areacode'] = result['code1']
+        dic['sigungucode'] = result['code2']
+    except:
+        return
+    
 
 # 서비스코드값 대치
 # 코드값 받아오면 한글 명칭으로 바꿔줌
 def findSer(df, dic):
     if not ser_file: return
 
-    result = {'code1':'', 'code2':'', 'code3':'',}
-    val1 = dic['cat1']
-    val2 = dic['cat2']
-    val3 = dic['cat3']
+    try:
+        result = {'code1':'', 'code2':'', 'code3':'',}
+        val1 = dic['cat1']
+        val2 = dic['cat2']
+        val3 = dic['cat3']
+        
+        row = df[df['code3'] == str(val3)]
+
+        result['code1'] = row.iloc[0, 1]
+        result['code2'] = row.iloc[0, 3]
+        result['code3'] = row.iloc[0, 5]
+
+        dic['cat1'] = result['code1']
+        dic['cat2'] = result['code2']
+        dic['cat3'] = result['code3']
+    except:
+        return
     
-    row = df[df['code3'] == str(val3)]
-
-    result['code1'] = row.iloc[0, 1]
-    result['code2'] = row.iloc[0, 3]
-    result['code3'] = row.iloc[0, 5]
-
-    dic['cat1'] = result['code1']
-    dic['cat2'] = result['code2']
-    dic['cat3'] = result['code3']
 
 ### 데이터 처리 메소드 -끝-
 

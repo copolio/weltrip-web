@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'multiselectfield',
     'search',
-    'actualPlanner'
+    'actualPlanner',
+    'collector',
+    'recommender',
 ]
 
 MIDDLEWARE = [

@@ -32,6 +32,7 @@ urlpatterns = [
     path('search/', include('search.urls'), name='search'),
     path('search/search_result.html', planner.connect_search, name='connect_search'),
     path('actualplanner/', include('actualPlanner.urls'), name='actualPlanner'),
+    path('collector/', include('collector.urls'), name='collector'),
     
 ]
 
