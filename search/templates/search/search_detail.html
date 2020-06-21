@@ -105,18 +105,32 @@
             {% endfor %}
             <hr class="mid-line">
             
-            반복정보 안내:<br>
+            반복정보 안내
+            <table border="1" bordercolor="white" width ="500" height="300" align = "center" >
+            <th>tag</th>
+            <th>value</th>
             {% for i in Infos.rep %}
             {% for tag, value in i.items %}
-            {{tag}} : {{value}}<br>
+            <tr><!-- 첫번째 줄 시작 -->
+                <td><Strong>{{tag}}</Strong></td>
+                <td>{{value}}</td>
+            </tr><!-- 첫번째 줄 끝 -->
+
             {% endfor %}
             {% endfor %}
+            </table>
 
             <hr class="mid-line">
-            소개정보 안내:<br>
+            소개정보 안내:
+            <table border="1" bordercolor="white" width ="500" height="300" align = "center" >
+            <th>tag</th>
+            <th>value</th>
             {% for i in Infos.intro %}
             {% for tag, value in i.items %}
-            {{tag}} : {{value}}<br>
+            <tr><!-- 첫번째 줄 시작 -->
+                <td><Strong>{{tag}}</Strong></td>
+                <td>{{value}}</td>
+            </tr>
             {% endfor %}
             {% endfor %}
             <hr class="mid-line">

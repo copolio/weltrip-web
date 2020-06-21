@@ -12,8 +12,6 @@ from actualPlanner.models import *
 from django.db.models import Avg, Count, Q
 import datetime 
 from recommender.views import *
-<<<<<<< HEAD
-=======
 
 #컨텐츠 추천 모듈과 연결 - 작성자: 김기정
 from recs.content_based_recommender import *
@@ -24,7 +22,6 @@ from collector.datas import *
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
->>>>>>> b3c33f0e5ec1aa3b4e22de329d4c7ff023d64cf5
 
 #컨텐츠 추천 모듈과 연결 - 작성자: 김기정
 from recs.content_based_recommender import *
