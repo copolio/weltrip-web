@@ -12,6 +12,19 @@ from actualPlanner.models import *
 from django.db.models import Avg, Count, Q
 import datetime 
 from recommender.views import *
+<<<<<<< HEAD
+=======
+
+#컨텐츠 추천 모듈과 연결 - 작성자: 김기정
+from recs.content_based_recommender import *
+from django.template.defaulttags import register
+from collector.datas import *
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+>>>>>>> b3c33f0e5ec1aa3b4e22de329d4c7ff023d64cf5
 
 #컨텐츠 추천 모듈과 연결 - 작성자: 김기정
 from recs.content_based_recommender import *
@@ -61,9 +74,9 @@ def home(request):
         sites3 = []
 
     #추천 장소 출력 - 작성자: 김기정
-    if request.user.is_authenticated: 
-        #recKey = userHisTable(request.user.username)['contentId'].iloc[-1] #322836 ##테스트용 키
-        recSpots = get_recommend_place_list_content(data, 322836)
+    if request.user.is_authenticated and not(userHisTable(request.user.username).empty): 
+        recKey = int(userHisTable(request.user.username)['contentId'].iloc[-1]) #322836 ##테스트용 키
+        recSpots = get_recommend_place_list_content(data, recKey)
         dicSpots = list(recSpots.to_dict().values())
         recimg = dicSpots[8]
         rectitle = dicSpots[17]
@@ -73,40 +86,51 @@ def home(request):
     else:
         return render(request, 'planner/home.html', {'popular1': sites1, 'popular2' : sites2,})
 
-"""
-def pop_sites(request):
-    if request.method == 'POST':
-        if request.POST['pop_title']:
 
-            metaInfo = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
 
-            meta = SearchMeta(key = request.POST['pop_title'], user = request.user, date = datetime.datetime.today())
-            k_result = searchByKeyword(meta.key, metaInfo)
-            searchObj = SearchObj()
-            searchObj.key = meta.key
-            searchObj.content = k_result
+def similar_user(user_id, sim_method = 'pearson'):
+    min = 1
 
-            # 상세페이지 출력 위한 결과 처리
-            details = []
-            for elm in k_result:
-                tmp = getInfos(elm)
-                details.append(tmp)
-            details = checkInfos(details, 'title')
-            for elm in details:
-                findGeo(geo_df, elm)
-                findSer(ser_df, elm)
+    ratings = Rating.objects.filter(userRated = user_id)
+    sim_users = Rating.objects.filter(contentName__in=ratings.values('contentName')) \
+        .values('userRated') \
+        .annotate(intersect=Count('userRated')).filter(intersect__gt=min)
 
-            # 무장애정보 조회
-            metaInfo.setUrl('http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
-            for elm in details:
-                bfinfo = searchBF(elm['contentid'], metaInfo)
-                elm['BF'] = bfinfo
+    dataset = Rating.objects.filter(userRated__in=sim_users.values('userRated'))
 
-            # 결과 페이지로 이동
-            return render(request, 'search/search_result.html', {'SearchObj':searchObj, 'SearchMeta':meta, 'details': details, 'tag_names':tag_names, 'bf_tags':bf_tags,})
-    else:
-        return redirect('planner/home.html')
-"""
+    users = {u['userRated']: {} for u in sim_users}
+
+    for row in dataset:
+        if row.userRated in users.keys():
+            users[row.userRated][row.contentName] = row.grade
+
+    similarity = dict()
+
+    switcher = {
+        'jaccard': jaccard,
+        'pearson': pearson,
+    }
+
+    for user in sim_users:
+
+        func = switcher.get(sim_method, lambda: "nothing")
+        s = func(users, user_id, user['userRated'])
+
+        if s > 0.2:
+            similarity[user['userRated']] = round(s, 2)
+    topn = sorted(similarity.items(), key=operator.itemgetter(1), reverse=True)[:10]
+
+    data = {
+        'user_id': user_id,
+        'num_places_rated': len(ratings),
+        'type': sim_method,
+        'topn': topn,
+        'similarity': topn,
+    }
+
+    return data
+
+
 
 def similar_user(user_id, sim_method = 'pearson'):
     min = 1
@@ -154,15 +178,16 @@ def similar_user(user_id, sim_method = 'pearson'):
 
 def connect_search(request):
     if request.method == 'POST':
-        print(request.POST)
         form = searchForm(request.POST)
         metaInfo = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
 
         if not (request.POST.get('keyword','') == ''):
             
             meta = SearchMeta(key = request.POST['keyword'], user = request.user, date = datetime.datetime.today())
-            print(meta)
             meta.save()
+
+
+
 
             # 결과 처리
             k_result = searchByKeyword(meta.key, metaInfo)
@@ -170,21 +195,35 @@ def connect_search(request):
             searchObj.key = meta.key
             searchObj.content = k_result
 
+
+
             # 상세페이지 출력 위한 결과 처리
             details = []
             for elm in k_result:
                 tmp = getInfos(elm)
                 details.append(tmp)
             details = checkInfos(details, 'title')
+            rating_tmps = basicTable()
+
             for elm in details:
+                # 각종 코드 한글명으로 치환
                 findGeo(geo_df, elm)
                 findSer(ser_df, elm)
+
+                # 평점 데이터 조회
+                try:
+                    elm['rating_count'] = rating_tmps.at['_count_', str(elm.get('contentid'))]
+                    elm['rating_avr'] = round(rating_tmps.at['_average_', str(elm.get('contentid'))], 2)
+                except:
+                    elm['rating_count'] = '0'
+                    elm['rating_avr'] = '0'
 
             # 무장애정보 조회
             metaInfo.setUrl('http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
             for elm in details:
                 bfinfo = searchBF(elm['contentid'], metaInfo)
                 elm['BF'] = bfinfo
+            
 
             # 결과 페이지로 이동
             return render(request, 'search/search_result.html', {'SearchObj':searchObj, 'SearchMeta':meta, 'details': details, 'tag_names':tag_names, 'bf_tags':bf_tags,})

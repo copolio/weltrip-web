@@ -34,6 +34,7 @@ urlpatterns = [
     path('search/search_result.html', planner.connect_search, name='connect_search'),
     path('actualplanner/', include('actualPlanner.urls'), name='actualPlanner'),
     path('recommender/', include('recommender.urls'), name='recommender'),
+    path('collector/', include('collector.urls'), name='collector'),
     
 ]
 
