@@ -14,4 +14,5 @@ urlpatterns = [
     path('reviseplan/', views.reviseplan, name='reviseplan'),
     path('rankplan/', views.rankplan, name='rankplan'),
     path('createdirect/', views.directplan, name='directplan'),
+    path('viewmap/', views.viewmap, name='viewmap'),
 ]

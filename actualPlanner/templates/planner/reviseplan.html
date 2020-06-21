@@ -92,6 +92,11 @@
                             <!--<a href="{% url 'cplan' %}" class="btn btn-info btn-block">새로운 장소 추가</a>-->
                             <a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 수정 완료</a>
                             <!--<button type="submit" a href="{% url 'createplan' %}" formmethod="POST" class="btn btn-info btn-block">일정 수정 완료</button>-->
+                            <form type="hidden" name="pk_send" action="{% url 'viewmap' %}" method="POST" target="_blank">
+                                {% csrf_token %}
+                            <input type="hidden" name="pk_userplan" value="{{pk_userplan}}">
+                            <button type="submit" class="btn btn-info btn-block" formmethod="POST">지도 화면으로</button>
+                            </form>
                         </p>
                     </div>
                 

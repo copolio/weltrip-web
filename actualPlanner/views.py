@@ -198,7 +198,7 @@ def rankplan(request):
         pk_output = callPlan(pk_input)
 
         if pk_output.rating == True:
-            return render(request, 'planner/rankplan.html')
+            return redirect('createplan')
         
         else:
             # 객체 생성
@@ -261,6 +261,11 @@ def rankplan(request):
 
                 # db 저장부
                 Rating(contentId=site_id, contentName=site_name, contentType=cat_value, userRated=user_name, userDType=dis_type, userPType=pre_type, grade=site_grade).save()
+            pk_rating = request.POST.get('pk_rating')
+            rated_plan = Planner.objects.get(id=pk_rating)
+            print(rated_plan)
+            rated_plan.rating = True
+            rated_plan.save()
 
             return redirect('createplan')
         
@@ -269,6 +274,43 @@ def rankplan(request):
         return render(request, 'planner/rankplan.html')
     
 
+def viewmap(request):
+    if 'pk_userplan' in request.POST and request.POST['pk_userplan']:
+        pk_input = request.POST.get('pk_userplan')
+        pk_output_ = callPlan(pk_input) #일정 객체 불러옴
+        pk_output = toPlan(pk_output_.contents)
 
+        #시작점, 끝점 표시
+        pk_output.plan[0].item['siteType'] = int(0)
+        pk_output.plan[-1].item['siteType'] = int(2)
 
+        #변수반환: 리스트(장소단위, 장소마다 x,y,장소속성 키 가짐)
+        sites_list = []
+
+        #노드별 x, y좌표 취합
+        for nodes in pk_output.plan:
+            tmp_id = nodes.item.get('siteId')
+            node_dict = getGeoInfos(tmp_id)
+            
+            #장소 속성 명시
+            if nodes.item.get('siteType') == 0:
+                node_dict['type'] = 0
+                start_point = node_dict
+            elif nodes.item.get('siteType') == 2:
+                node_dict['type'] = 2
+                end_point = node_dict
+            else:
+                node_dict['type'] = 1
+                sites_list.append(node_dict)
+            
+        print(sites_list, start_point, end_point)
+        centerx = (start_point.get('mapx') + end_point.get('mapx'))/2 
+        centery = (start_point.get('mapy') + end_point.get('mapy'))/2
+        center_point = {'mapx':centerx, 'mapy':centery}
+        # 장소정보 취합 완료
+
+        return render(request, 'planner/makemap.html', {'sites_list': sites_list, 'start_point':start_point, 'end_point':end_point, 'center_point':center_point,})
+
+    else:
+        return render(request, 'planner/makemap.html')
 
