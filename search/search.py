@@ -283,3 +283,17 @@ except:
     print(os.getcwd())
     
 ### 데이터 처리용 변수 -끝-
+
+
+# x, y좌표 취합
+def getGeoInfos(contentId):
+    apiInfo = ApiInfo('1a%2FLc1roxNrXp8QeIitbwvJdfpUYIFTcrbii4inJk3m%2BVpFvZSWjHFmOfWiH9T7TMbv07j5sDnJ5yefVDqHXfA%3D%3D', 'http://api.visitkorea.or.kr/openapi/service/rest/KorWithService/')
+    req = tourReq('ETC', 'AppTest', apiInfo.mykey)
+    req.addPara('contentId', contentId)
+    req.addPara('mapinfoYN', 'Y')
+    tmp = parseOne(req.makeReq(apiInfo.url, 'detailCommon'))
+    result = getInfos(tmp)
+
+    geo_dict = {'mapx':result.get('mapx'),'mapy':result.get('mapy'),'mlevel':result.get('mlevel')}
+
+    return geo_dict
