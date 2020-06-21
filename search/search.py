@@ -376,9 +376,10 @@ def getGeoInfos(contentId):
     req = tourReq('ETC', 'AppTest', apiInfo.mykey)
     req.addPara('contentId', contentId)
     req.addPara('mapinfoYN', 'Y')
+    req.addPara('defaultYN', 'Y')
     tmp = parseOne(req.makeReq(apiInfo.url, 'detailCommon'))
     result = getInfos(tmp)
 
-    geo_dict = {'mapx':result.get('mapx'),'mapy':result.get('mapy'),'mlevel':result.get('mlevel')}
+    geo_dict = {'mapx':float(result.get('mapx')),'mapy':float(result.get('mapy')), 'siteId':contentId, 'siteName':result.get('title'),}
 
     return geo_dict

@@ -4,11 +4,7 @@
 {% block content %}
 <title>Weltrip Planner</title>
     <div class="row justify-content-center">
-<<<<<<< HEAD
-        <div class="col-8">
-=======
         <div class="col-9">
->>>>>>> b3c33f0e5ec1aa3b4e22de329d4c7ff023d64cf5
             <div class="content-selection">
                 <img src="{% static 'img/weltripLogo.png' %}" class="img-fluid rounded mx-auto d-block" alt="img-thumbnail">
                 <form method="POST">
@@ -71,19 +67,6 @@
                                     <th scope="col">장소명</th>
                                     <th scope="col">주소</th>
                                     <th scope="col"> </th>
-<<<<<<< HEAD
-                                    </thead>
-                                    <tbody>
-                                    {% for elm in site_searched %}
-                                    <form name="addSite" action="" method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
-                                    <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}">
-                                    <tr>
-                                        <th scope="row">{{elm.title}}</th>
-                                        <td>{{elm.addr}}</td>
-                                        <td><button type="submit" class="btn btn-outline-info" >추가</button></td>
-=======
                                     <th scope="col"> </th>
                                     </thead>
                                     <tbody>
@@ -100,7 +83,6 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="siteAdded" value="{{elm.contentId}}">
                                             <input type="hidden" name="pk_userplan" value="{{ pk_userplan }}"><button type="submit" class="btn btn-outline-info" >추가</button></td>
->>>>>>> b3c33f0e5ec1aa3b4e22de329d4c7ff023d64cf5
                                     </tr>
                                     </form>
                                     {% endfor %}
