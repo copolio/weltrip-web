@@ -6,6 +6,8 @@ import numpy as np
 from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.shortcuts import render
+import pandas as pd
+import recs.content_based_recommender
 
 from actualPlanner.models import Rating
 from recs.neighborhood_based_recommender import NeighborhoodBasedRecs

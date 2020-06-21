@@ -1,17 +1,18 @@
 body {
   padding-top: 5rem;
 }
-.searchbar{
+.search_bar{
   margin-bottom: auto;
   margin-top: auto;
   height: 60px;
+  /*width: 500px;*/
   background-color: #5bc0de;
   border-radius: 30px;
   padding: 10px;
   box-shadow: 3px 3px 3px 3px grey;
   }
 
-  .search_input{
+  .searchbar{
   color: white;
   border: 0;
   outline: 0;
@@ -22,14 +23,14 @@ body {
   transition: width 0.4s linear;
   }
 
-  .searchbar > .search_input{
+  .search_bar > .searchbar{
   padding: 0 10px;
   width: 450px;
   caret-color:white;
   transition: width 0.4s linear;
   }
 
-  .searchbar > .search_icon{
+  .search_bar > .search_icon{
   background: white;
   color: #5bc0de;
   }
@@ -59,4 +60,9 @@ body {
   width: 125px;
   margin-right: 20px;
   margin-bottom: 16px;
+}
+
+hr.mid-line{
+  border: solid black;
+  border-width: 1px 0 0;
 }
