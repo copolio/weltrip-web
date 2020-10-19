@@ -7,6 +7,7 @@ import pytest
 
 import matplotlib as mpl
 from matplotlib import pyplot as plt
+from matplotlib.cbook import MatplotlibDeprecationWarning
 
 
 def test_pyplot_up_to_date(tmpdir):
@@ -37,6 +38,27 @@ def test_pyplot_up_to_date(tmpdir):
         )
 
 
+def test_copy_docstring_and_deprecators(recwarn):
+    @mpl.cbook._rename_parameter("(version)", "old", "new")
+    @mpl.cbook._make_keyword_only("(version)", "kwo")
+    def func(new, kwo=None):
+        pass
+
+    @plt._copy_docstring_and_deprecators(func)
+    def wrapper_func(new, kwo=None):
+        pass
+
+    wrapper_func(None)
+    wrapper_func(new=None)
+    wrapper_func(None, kwo=None)
+    wrapper_func(new=None, kwo=None)
+    assert not recwarn
+    with pytest.warns(MatplotlibDeprecationWarning):
+        wrapper_func(old=None)
+    with pytest.warns(MatplotlibDeprecationWarning):
+        wrapper_func(None, None)
+
+
 def test_pyplot_box():
     fig, ax = plt.subplots()
     plt.box(False)
@@ -52,3 +74,10 @@ def test_pyplot_box():
 def test_stackplot_smoke():
     # Small smoke test for stackplot (see #12405)
     plt.stackplot([1, 2, 3], [1, 2, 3])
+
+
+def test_nrows_error():
+    with pytest.raises(TypeError):
+        plt.subplot(nrows=1)
+    with pytest.raises(TypeError):
+        plt.subplot(ncols=1)
