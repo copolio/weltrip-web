@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\projects\weltrip_web\venv"
+VIRTUAL_ENV="C:\Users\lenovo\PycharmProjects\weltip-web\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
