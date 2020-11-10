@@ -30,4 +30,4 @@ Simple website in Korean that provides various information and data about barrie
 - 회원가입, 로그인 등 인증 기능
 - 마이페이지 등 개인 프로필 관리 기능
 - 무장애 여행지 검색 및 추천 기능
-
+- 여행 장소 선택 및 일정 관리 기능
