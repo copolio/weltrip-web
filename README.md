@@ -13,6 +13,14 @@ Simple website in Korean that provides various information and data about barrie
     - 사용자의 기호 등을 고려한 맞춤형 정보를 제공하며 일정 계획까지 도와주는 종합적인 여행 플래너는 전무
     - 공공데이터의 유의미한 활용방안 모색
 
+## 프로젝트 개발 환경
+---
+- Python 3.7
+- Django Framework
+- Pycharm IDE Community Edition
+- Anaconda
+- Bootstrap 5
+- Requests and Beautiful Soup
 
 ## 프로젝트 실행
 ---
